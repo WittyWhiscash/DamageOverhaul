@@ -1,0 +1,20 @@
+{
+  "name": "Wither Skeleton",
+  "icon": "minecraft:wither_skeleton_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:wither_skeleton",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:wither_skeleton"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:wither_skeleton"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:wither_skeleton"
+    }
+  ]
+}

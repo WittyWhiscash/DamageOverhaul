@@ -1,0 +1,12 @@
+{
+  "name": "Iron Shovel",
+  "icon": "minecraft:iron_shovel",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:iron_shovel",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:iron_shovel"
+    }
+  ]
+}

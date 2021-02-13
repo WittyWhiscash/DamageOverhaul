@@ -1,0 +1,20 @@
+{
+  "name": "Ghast",
+  "icon": "minecraft:ghast_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:ghast",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:ghast"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:ghast"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:fireball"
+    }
+  ]
+}

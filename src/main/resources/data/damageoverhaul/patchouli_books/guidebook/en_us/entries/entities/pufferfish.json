@@ -1,0 +1,20 @@
+{
+  "name": "Pufferfish",
+  "icon": "minecraft:pufferfish_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:pufferfish",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:pufferfish"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:pufferfish"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:pufferfish"
+    }
+  ]
+}

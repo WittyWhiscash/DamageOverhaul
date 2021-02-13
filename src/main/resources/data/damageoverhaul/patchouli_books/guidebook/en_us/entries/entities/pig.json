@@ -1,0 +1,16 @@
+{
+  "name": "Pig",
+  "icon": "minecraft:pig_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:pig",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:pig"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:pig"
+    }
+  ]
+}

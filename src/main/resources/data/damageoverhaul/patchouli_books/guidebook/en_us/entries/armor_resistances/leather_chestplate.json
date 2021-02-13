@@ -1,0 +1,12 @@
+{
+  "name": "Leather Tunic",
+  "icon": "minecraft:leather_chestplate",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:leather_chestplate",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:leather_chestplate"
+    }
+  ]
+}

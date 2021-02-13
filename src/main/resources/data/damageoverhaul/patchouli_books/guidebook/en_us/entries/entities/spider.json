@@ -1,0 +1,20 @@
+{
+  "name": "Spider",
+  "icon": "minecraft:spider_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:spider",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:spider"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:spider"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:spider"
+    }
+  ]
+}

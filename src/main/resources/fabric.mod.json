@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "damageoverhaul",
+  "version": "${version}",
+  "name": "Damage Overhaul",
+  "description": "Damage Overhaul overhauls damage, armor, and armor toughness to be more complex, while also being extremely customizable.",
+  "authors": [
+    "WittyWhiscash",
+    "Csillagvihar"
+  ],
+  "contributors": [
+    "Aleksandr Makarov"
+  ],
+  "contact": {},
+  "license": "GPL-3.0",
+  "icon": "assets/placeholder/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "mod.wittywhiscash.damageoverhaul.DamageOverhaul"
+    ],
+    "client": [],
+    "server": [],
+    "modmenu": [
+      "mod.wittywhiscash.damageoverhaul.client.ModMenuImpl"
+    ]
+  },
+  "mixins": [
+    "damageoverhaul.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.10.8"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Villager",
+  "icon": "minecraft:villager_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:villager",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:villager"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:villager"
+    }
+  ]
+}

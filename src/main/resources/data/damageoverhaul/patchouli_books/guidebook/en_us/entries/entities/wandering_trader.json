@@ -1,0 +1,16 @@
+{
+  "name": "Wandering Trader",
+  "icon": "minecraft:wandering_trader_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:wandering_trader",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:wandering_trader"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:wandering_trader"
+    }
+  ]
+}

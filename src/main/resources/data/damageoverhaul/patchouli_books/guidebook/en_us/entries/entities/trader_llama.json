@@ -1,0 +1,20 @@
+{
+  "name": "Trader Llama",
+  "icon": "minecraft:trader_llama_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:trader_llama",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:trader_llama"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:trader_llama"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:llama_spit"
+    }
+  ]
+}

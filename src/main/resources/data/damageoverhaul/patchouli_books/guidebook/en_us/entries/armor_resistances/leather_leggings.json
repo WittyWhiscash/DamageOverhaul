@@ -1,0 +1,12 @@
+{
+  "name": "Leather Pants",
+  "icon": "minecraft:leather_leggings",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:leather_leggings",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:leather_leggings"
+    }
+  ]
+}

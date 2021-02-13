@@ -1,0 +1,16 @@
+{
+  "name": "Mooshroom",
+  "icon": "minecraft:mooshroom_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:mooshroom",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:mooshroom"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:mooshroom"
+    }
+  ]
+}

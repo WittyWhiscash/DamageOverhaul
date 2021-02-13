@@ -1,0 +1,12 @@
+{
+  "name": "Netherite Boots",
+  "icon": "minecraft:netherite_boots",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:netherite_boots",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:netherite_boots"
+    }
+  ]
+}

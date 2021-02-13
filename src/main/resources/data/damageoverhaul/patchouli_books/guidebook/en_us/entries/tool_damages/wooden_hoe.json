@@ -1,0 +1,12 @@
+{
+  "name": "Wooden Hoe",
+  "icon": "minecraft:wooden_hoe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:wooden_hoe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:wooden_hoe"
+    }
+  ]
+}

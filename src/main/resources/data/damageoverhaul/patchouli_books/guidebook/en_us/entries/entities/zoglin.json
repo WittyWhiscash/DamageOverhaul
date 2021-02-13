@@ -1,0 +1,20 @@
+{
+  "name": "Zoglin",
+  "icon": "minecraft:zoglin_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:zoglin",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:zoglin"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:zoglin"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:zoglin"
+    }
+  ]
+}

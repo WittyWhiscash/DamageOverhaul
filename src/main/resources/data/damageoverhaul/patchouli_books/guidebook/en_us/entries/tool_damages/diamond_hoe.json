@@ -1,0 +1,12 @@
+{
+  "name": "Diamond Hoe",
+  "icon": "minecraft:diamond_hoe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:diamond_hoe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:diamond_hoe"
+    }
+  ]
+}

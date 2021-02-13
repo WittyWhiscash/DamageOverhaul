@@ -1,0 +1,12 @@
+{
+  "name": "Golden Chestplate",
+  "icon": "minecraft:golden_chestplate",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:golden_chestplate",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:golden_chestplate"
+    }
+  ]
+}

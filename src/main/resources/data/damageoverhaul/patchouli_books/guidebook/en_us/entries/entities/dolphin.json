@@ -1,0 +1,20 @@
+{
+  "name": "Dolphin",
+  "icon": "minecraft:dolphin_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:dolphin",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:dolphin"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:dolphin"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:dolphin"
+    }
+  ]
+}

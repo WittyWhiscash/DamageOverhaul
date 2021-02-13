@@ -1,0 +1,20 @@
+{
+  "name": "Wolf",
+  "icon": "minecraft:wolf_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:wolf",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:wolf"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:wolf"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:wolf"
+    }
+  ]
+}

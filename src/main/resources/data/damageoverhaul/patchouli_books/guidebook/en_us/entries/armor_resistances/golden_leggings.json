@@ -1,0 +1,12 @@
+{
+  "name": "Golden Leggings",
+  "icon": "minecraft:golden_leggings",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:golden_leggings",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:golden_leggings"
+    }
+  ]
+}

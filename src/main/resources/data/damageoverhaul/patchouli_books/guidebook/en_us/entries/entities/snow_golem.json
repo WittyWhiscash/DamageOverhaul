@@ -1,0 +1,20 @@
+{
+  "name": "Snow Golem",
+  "icon": "minecraft:air",
+  "category": "entities",
+  "flag": "damageoverhaul:snow_golem",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:snow_golem"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:snow_golem"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:snowball"
+    }
+  ]
+}

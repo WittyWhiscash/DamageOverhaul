@@ -1,0 +1,20 @@
+{
+  "name": "Bee",
+  "icon": "minecraft:bee_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:bee",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:bee"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:bee"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:bee"
+    }
+  ]
+}

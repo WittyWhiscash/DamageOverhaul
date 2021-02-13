@@ -1,0 +1,16 @@
+{
+  "name": "Horse",
+  "icon": "minecraft:horse_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:horse",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:horse"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:horse"
+    }
+  ]
+}

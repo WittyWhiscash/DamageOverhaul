@@ -1,0 +1,12 @@
+{
+  "name": "Iron Helmet",
+  "icon": "minecraft:iron_helmet",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:iron_helmet",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:iron_helmet"
+    }
+  ]
+}

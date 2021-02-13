@@ -1,0 +1,12 @@
+{
+  "name": "Diamond Sword",
+  "icon": "minecraft:diamond_sword",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:diamond_sword",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:diamond_sword"
+    }
+  ]
+}

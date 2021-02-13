@@ -1,0 +1,20 @@
+{
+  "name": "Slime",
+  "icon": "minecraft:slime_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:slime",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:slime"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:slime"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:slime"
+    }
+  ]
+}

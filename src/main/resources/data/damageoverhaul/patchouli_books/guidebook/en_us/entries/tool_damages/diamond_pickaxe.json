@@ -1,0 +1,12 @@
+{
+  "name": "Diamond Pickaxe",
+  "icon": "minecraft:diamond_pickaxe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:diamond_pickaxe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:diamond_pickaxe"
+    }
+  ]
+}

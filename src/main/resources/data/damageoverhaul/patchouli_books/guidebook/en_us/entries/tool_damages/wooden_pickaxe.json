@@ -1,0 +1,12 @@
+{
+  "name": "Wooden Pickaxe",
+  "icon": "minecraft:wooden_pickaxe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:wooden_pickaxe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:wooden_pickaxe"
+    }
+  ]
+}

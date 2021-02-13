@@ -1,0 +1,20 @@
+{
+  "name": "Hoglin",
+  "icon": "minecraft:hoglin_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:hoglin",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:hoglin"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:hoglin"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:hoglin"
+    }
+  ]
+}

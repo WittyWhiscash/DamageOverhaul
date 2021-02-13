@@ -1,0 +1,16 @@
+{
+  "name": "Cow",
+  "icon": "minecraft:cow_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:cow",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:cow"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:cow"
+    }
+  ]
+}

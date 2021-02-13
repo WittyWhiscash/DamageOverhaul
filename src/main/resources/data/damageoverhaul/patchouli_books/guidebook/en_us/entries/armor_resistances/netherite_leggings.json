@@ -1,0 +1,12 @@
+{
+  "name": "Netherite Leggings",
+  "icon": "minecraft:netherite_leggings",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:netherite_leggings",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:netherite_leggings"
+    }
+  ]
+}

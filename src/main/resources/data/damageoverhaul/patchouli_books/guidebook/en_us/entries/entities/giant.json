@@ -1,0 +1,20 @@
+{
+  "name": "Giant",
+  "icon": "minecraft:air",
+  "category": "entities",
+  "flag": "damageoverhaul:giant",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:giant"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:giant"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:giant"
+    }
+  ]
+}

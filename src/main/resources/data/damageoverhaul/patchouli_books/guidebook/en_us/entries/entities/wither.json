@@ -1,0 +1,20 @@
+{
+  "name": "Wither",
+  "icon": "minecraft:air",
+  "category": "entities",
+  "flag": "damageoverhaul:wither",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:wither"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:wither"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:wither_skull"
+    }
+  ]
+}

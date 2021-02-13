@@ -1,0 +1,12 @@
+{
+  "name": "Diamond Leggings",
+  "icon": "minecraft:diamond_leggings",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:diamond_leggings",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:diamond_leggings"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Drowned",
+  "icon": "minecraft:drowned_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:drowned",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:drowned"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:drowned"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:drowned"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:trident"
+    }
+  ]
+}

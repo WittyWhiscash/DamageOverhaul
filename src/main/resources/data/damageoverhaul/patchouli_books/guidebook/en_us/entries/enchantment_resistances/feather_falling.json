@@ -1,0 +1,12 @@
+{
+  "name": "Feather Falling",
+  "icon": "minecraft:enchanted_book",
+  "category": "enchantment_resistances",
+  "flag": "damageoverhaul:feather_falling",
+  "pages": [
+    {
+      "type": "enchantment_resistance",
+      "enchantment": "minecraft:feather_falling"
+    }
+  ]
+}

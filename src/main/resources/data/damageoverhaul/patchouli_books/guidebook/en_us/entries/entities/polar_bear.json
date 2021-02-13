@@ -1,0 +1,20 @@
+{
+  "name": "Polar Bear",
+  "icon": "minecraft:polar_bear_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:polar_bear",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:polar_bear"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:polar_bear"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:polar_bear"
+    }
+  ]
+}

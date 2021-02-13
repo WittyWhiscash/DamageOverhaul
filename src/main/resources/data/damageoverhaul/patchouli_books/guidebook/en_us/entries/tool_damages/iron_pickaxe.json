@@ -1,0 +1,12 @@
+{
+  "name": "Iron Pickaxe",
+  "icon": "minecraft:iron_pickaxe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:iron_pickaxe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:iron_pickaxe"
+    }
+  ]
+}

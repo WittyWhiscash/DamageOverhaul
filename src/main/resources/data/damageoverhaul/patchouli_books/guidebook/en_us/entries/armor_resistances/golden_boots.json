@@ -1,0 +1,12 @@
+{
+  "name": "Golden Boots",
+  "icon": "minecraft:golden_boots",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:golden_boots",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:golden_boots"
+    }
+  ]
+}

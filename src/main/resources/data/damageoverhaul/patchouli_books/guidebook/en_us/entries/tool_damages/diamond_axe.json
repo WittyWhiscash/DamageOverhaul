@@ -1,0 +1,12 @@
+{
+  "name": "Diamond Axe",
+  "icon": "minecraft:diamond_axe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:diamond_axe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:diamond_axe"
+    }
+  ]
+}

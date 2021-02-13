@@ -1,0 +1,20 @@
+{
+  "name": "Phantom",
+  "icon": "minecraft:phantom_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:phantom",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:phantom"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:phantom"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:phantom"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Evoker",
+  "icon": "minecraft:evoker_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:evoker",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:evoker"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:evoker"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:evoker_fangs"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Chainmail Boots",
+  "icon": "minecraft:chainmail_boots",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:chainmail_boots",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:chainmail_boots"
+    }
+  ]
+}

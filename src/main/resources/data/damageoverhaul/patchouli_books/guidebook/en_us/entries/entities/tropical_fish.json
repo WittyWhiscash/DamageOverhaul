@@ -1,0 +1,16 @@
+{
+  "name": "Tropical Fish",
+  "icon": "minecraft:tropical_fish_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:tropical_fish",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:tropical_fish"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:tropical_fish"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Vindicator",
+  "icon": "minecraft:vindicator_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:vindicator",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:vindicator"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:vindicator"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:vindicator"
+    }
+  ]
+}

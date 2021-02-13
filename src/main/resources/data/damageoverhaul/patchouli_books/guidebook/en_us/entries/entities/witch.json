@@ -1,0 +1,24 @@
+{
+  "name": "Witch",
+  "icon": "minecraft:witch_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:witch",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:witch"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:witch"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:potion"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:area_effect_cloud"
+    }
+  ]
+}

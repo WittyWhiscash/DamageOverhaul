@@ -1,0 +1,16 @@
+{
+  "name": "Donkey",
+  "icon": "minecraft:donkey_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:donkey",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:donkey"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:donkey"
+    }
+  ]
+}

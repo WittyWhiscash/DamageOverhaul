@@ -1,0 +1,12 @@
+{
+  "name": "Turtle Shell",
+  "icon": "minecraft:turtle_helmet",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:turtle_helmet",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:turtle_helmet"
+    }
+  ]
+}

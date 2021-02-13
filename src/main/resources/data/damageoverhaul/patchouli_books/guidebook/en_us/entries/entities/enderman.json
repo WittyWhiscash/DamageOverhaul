@@ -1,0 +1,20 @@
+{
+  "name": "Enderman",
+  "icon": "minecraft:enderman_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:enderman",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:enderman"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:enderman"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:enderman"
+    }
+  ]
+}

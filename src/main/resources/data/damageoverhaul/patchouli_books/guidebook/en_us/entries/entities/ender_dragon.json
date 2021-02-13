@@ -1,0 +1,24 @@
+{
+  "name": "Ender Dragon",
+  "icon": "minecraft:air",
+  "category": "entities",
+  "flag": "damageoverhaul:ender_dragon",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:ender_dragon"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:ender_dragon"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:ender_dragon"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:area_effect_cloud"
+    }
+  ]
+}

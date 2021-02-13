@@ -1,0 +1,12 @@
+{
+  "name": "Leather Boots",
+  "icon": "minecraft:leather_boots",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:leather_boots",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:leather_boots"
+    }
+  ]
+}

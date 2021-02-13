@@ -1,0 +1,12 @@
+{
+  "name": "Golden Sword",
+  "icon": "minecraft:golden_sword",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:golden_sword",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:golden_sword"
+    }
+  ]
+}

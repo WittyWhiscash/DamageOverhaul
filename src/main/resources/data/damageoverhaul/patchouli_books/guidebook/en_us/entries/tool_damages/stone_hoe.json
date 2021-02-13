@@ -1,0 +1,12 @@
+{
+  "name": "Stone Hoe",
+  "icon": "minecraft:stone_hoe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:stone_hoe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:stone_hoe"
+    }
+  ]
+}

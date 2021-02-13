@@ -1,0 +1,12 @@
+{
+  "name": "Netherite Hoe",
+  "icon": "minecraft:netherite_hoe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:netherite_hoe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:netherite_hoe"
+    }
+  ]
+}

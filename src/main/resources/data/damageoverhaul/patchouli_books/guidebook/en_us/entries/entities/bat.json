@@ -1,0 +1,16 @@
+{
+  "name": "Bat",
+  "icon": "minecraft:bat_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:bat",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:bat"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:bat"
+    }
+  ]
+}

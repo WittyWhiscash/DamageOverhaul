@@ -1,0 +1,20 @@
+{
+  "name": "Panda",
+  "icon": "minecraft:panda_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:panda",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:panda"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:panda"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:panda"
+    }
+  ]
+}

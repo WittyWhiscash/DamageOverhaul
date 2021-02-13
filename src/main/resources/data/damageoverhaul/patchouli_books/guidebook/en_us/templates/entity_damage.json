@@ -1,0 +1,113 @@
+{
+  "processor": "mod.wittywhiscash.damageoverhaul.client.patchouli.preprocessor.EntityDamageComponentProcessor",
+  "components": [
+    {
+      "type": "header",
+      "text": "#title",
+      "scale": 0.75,
+      "x": -1,
+      "y": -1
+    },
+    {
+      "type": "separator",
+      "x": -1,
+      "y": -1
+    },
+    {
+      "type": "text",
+      "text": "#type1",
+      "x": 4,
+      "y": 15
+    },
+    {
+      "type": "text",
+      "text": "#value1",
+      "x": 99,
+      "y": 15
+    },
+    {
+      "type": "text",
+      "text": "#type2",
+      "x": 4,
+      "y": 30
+    },
+    {
+      "type": "text",
+      "text": "#value2",
+      "x": 99,
+      "y": 30
+    },
+    {
+      "type": "text",
+      "text": "#type3",
+      "x": 4,
+      "y": 45
+    },
+    {
+      "type": "text",
+      "text": "#value3",
+      "x": 99,
+      "y": 45
+    },
+    {
+      "type": "text",
+      "text": "#type4",
+      "x": 4,
+      "y": 60
+    },
+    {
+      "type": "text",
+      "text": "#value4",
+      "x": 99,
+      "y": 60
+    },
+    {
+      "type": "text",
+      "text": "#type5",
+      "x": 4,
+      "y": 75
+    },
+    {
+      "type": "text",
+      "text": "#value5",
+      "x": 99,
+      "y": 75
+    },
+    {
+      "type": "text",
+      "text": "#type6",
+      "x": 4,
+      "y": 90
+    },
+    {
+      "type": "text",
+      "text": "#value6",
+      "x": 94,
+      "y": 90
+    },
+    {
+      "type": "text",
+      "text": "#type7",
+      "x": 4,
+      "y": 105
+    },
+    {
+      "type": "text",
+      "text": "#value7",
+      "x": 94,
+      "y": 105
+    },
+    {
+      "type": "text",
+      "text": "#type8",
+      "x": 4,
+      "y": 120
+    },
+    {
+      "type": "text",
+      "text": "#value8",
+      "x": 94,
+      "y": 120
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Netherite Chestplate",
+  "icon": "minecraft:netherite_chestplate",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:netherite_chestplate",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:netherite_chestplate"
+    }
+  ]
+}

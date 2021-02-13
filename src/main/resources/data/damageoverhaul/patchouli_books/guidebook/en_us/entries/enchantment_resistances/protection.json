@@ -1,0 +1,12 @@
+{
+  "name": "Protection",
+  "icon": "minecraft:enchanted_book",
+  "category": "enchantment_resistances",
+  "flag": "damageoverhaul:protection",
+  "pages": [
+    {
+      "type": "enchantment_resistance",
+      "enchantment": "minecraft:protection"
+    }
+  ]
+}

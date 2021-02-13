@@ -1,0 +1,12 @@
+{
+  "name": "Wooden Axe",
+  "icon": "minecraft:wooden_axe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:wooden_axe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:wooden_axe"
+    }
+  ]
+}

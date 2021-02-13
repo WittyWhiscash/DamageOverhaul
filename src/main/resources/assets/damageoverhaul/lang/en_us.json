@@ -1,0 +1,32 @@
+{
+  "item.damageoverhaul.guidebook": "Damage Manuscript",
+
+  "book.damageoverhaul.landing.text": "You hold in your hands the knowledge learned by ancient scholars in the early days of civilization.$(br2)These pieces of knowledge may or may not guide your hand in decisions regarding the subjects of this manuscript.",
+  "book.damageoverhaul.bat.sumBlock": "A distant relative of the mouse, the bat is commonly found in caves and is nocturnal.",
+  "book.damageoverhaul.bat.descBlock": "They interface with their surroundings through the use of echolocation, which maps their surroundings in darkness.",
+  "book.damageoverhaul.bee.sumBlock": "This flower-engrossed insect is quite the natural marvel, and very helpful to nature.",
+  "book.damageoverhaul.bee.descBlock": "It does this by nourishing flowers and crops with the pollen needed to reproduce and grow.",
+  "book.damageoverhaul.blaze.sumBlock": "A fiery creature found in the Nether, the Blaze is a protector of the nether fortress.",
+  "book.damageoverhaul.blaze.descBlock": "It defends its home with fiery projectiles, but contact with its floating rods can also burn quite heavily.",
+
+  "tooltip.damageoverhaul.damage.bludgeoning": "+%s%% Bludgeoning Damage",
+  "tooltip.damageoverhaul.damage.slashing": "+%s%% Slashing Damage",
+  "tooltip.damageoverhaul.damage.piercing": "+%s%% Piercing Damage",
+  "tooltip.damageoverhaul.damage.holdShift": "Hold <SHIFT> to see damage spread",
+
+  "tooltip.damageoverhaul.resistance.single": "%s: %s Armor Unit",
+  "tooltip.damageoverhaul.resistance.multi": "%s: %s Armor Units",
+  "tooltip.damageoverhaul.resistance.holdControl": "Hold <CTRL> to see resistance spread",
+
+  "tooltip.damageoverhaul.mobResistance.immune": "%s: IMMUNE",
+  "tooltip.damageoverhaul.mobResistance.resistant": "%s: RESISTANT, -%s%%",
+  "tooltip.damageoverhaul.mobResistance.neutral": "%s: NEUTRAL",
+  "tooltip.damageoverhaul.mobResistance.weak": "%s: WEAK, +%s%%",
+  "tooltip.damageoverhaul.mobResistance.vulnerable": "%s: VULNERABLE",
+
+  "config.damageoverhaul.title": "Damage Overhaul - Config",
+  "config.damageoverhaul.title.armor": "Armor Effectiveness Config",
+  "config.damageoverhaul.title.damage_e": "Damage Effectiveness Config",
+  "config.damageoverhaul.title.debug": "Debug Config",
+  "config.damageoverhaul.title.damage": "Damage Config"
+}

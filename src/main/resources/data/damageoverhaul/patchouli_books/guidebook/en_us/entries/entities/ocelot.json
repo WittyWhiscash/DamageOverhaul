@@ -1,0 +1,20 @@
+{
+  "name": "Ocelot",
+  "icon": "minecraft:ocelot_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:ocelot",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:ocelot"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:ocelot"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:ocelot"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Parrot",
+  "icon": "minecraft:parrot_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:parrot",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:parrot"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:parrot"
+    }
+  ]
+}

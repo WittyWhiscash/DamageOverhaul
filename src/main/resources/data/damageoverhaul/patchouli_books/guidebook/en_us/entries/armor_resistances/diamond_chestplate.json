@@ -1,0 +1,12 @@
+{
+  "name": "Diamond Chestplate",
+  "icon": "minecraft:diamond_chestplate",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:diamond_chestplate",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:diamond_chestplate"
+    }
+  ]
+}

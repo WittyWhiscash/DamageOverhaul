@@ -1,0 +1,12 @@
+{
+  "name": "Projectile Protection",
+  "icon": "minecraft:enchanted_book",
+  "category": "enchantment_resistances",
+  "flag": "damageoverhaul:projectile_protection",
+  "pages": [
+    {
+      "type": "enchantment_resistance",
+      "enchantment": "minecraft:projectile_protection"
+    }
+  ]
+}

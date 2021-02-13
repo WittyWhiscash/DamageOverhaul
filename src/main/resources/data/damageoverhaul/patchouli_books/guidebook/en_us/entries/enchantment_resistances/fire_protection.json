@@ -1,0 +1,12 @@
+{
+  "name": "Fire Protection",
+  "icon": "minecraft:enchanted_book",
+  "category": "enchantment_resistances",
+  "flag": "damageoverhaul:fire_protection",
+  "pages": [
+    {
+      "type": "enchantment_resistance",
+      "enchantment": "minecraft:fire_protection"
+    }
+  ]
+}

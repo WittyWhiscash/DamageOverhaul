@@ -1,0 +1,12 @@
+{
+  "name": "Golden Shovel",
+  "icon": "minecraft:golden_shovel",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:golden_shovel",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:golden_shovel"
+    }
+  ]
+}

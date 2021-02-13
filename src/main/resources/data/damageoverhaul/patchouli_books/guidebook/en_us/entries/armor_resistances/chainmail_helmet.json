@@ -1,0 +1,12 @@
+{
+  "name": "Chainmail Helmet",
+  "icon": "minecraft:chainmail_helmet",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:chainmail_helmet",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:chainmail_helmet"
+    }
+  ]
+}

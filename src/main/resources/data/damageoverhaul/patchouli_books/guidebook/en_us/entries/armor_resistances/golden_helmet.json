@@ -1,0 +1,12 @@
+{
+  "name": "Golden Helmet",
+  "icon": "minecraft:golden_helmet",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:golden_helmet",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:golden_helmet"
+    }
+  ]
+}

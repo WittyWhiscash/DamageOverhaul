@@ -1,0 +1,20 @@
+{
+  "name": "Iron Golem",
+  "icon": "minecraft:air",
+  "category": "entities",
+  "flag": "damageoverhaul:iron_golem",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:iron_golem"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:iron_golem"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:iron_golem"
+    }
+  ]
+}

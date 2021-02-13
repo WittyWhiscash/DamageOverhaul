@@ -1,0 +1,12 @@
+{
+  "name": "Golden Hoe",
+  "icon": "minecraft:golden_hoe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:golden_hoe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:golden_hoe"
+    }
+  ]
+}

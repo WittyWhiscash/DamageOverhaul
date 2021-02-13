@@ -1,0 +1,12 @@
+{
+  "name": "Netherite Sword",
+  "icon": "minecraft:netherite_sword",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:netherite_sword",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:netherite_sword"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Sheep",
+  "icon": "minecraft:sheep_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:sheep",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:sheep"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:sheep"
+    }
+  ]
+}

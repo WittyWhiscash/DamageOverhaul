@@ -1,0 +1,12 @@
+{
+  "name": "Chainmail Leggings",
+  "icon": "minecraft:chainmail_leggings",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:chainmail_leggings",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:chainmail_leggings"
+    }
+  ]
+}

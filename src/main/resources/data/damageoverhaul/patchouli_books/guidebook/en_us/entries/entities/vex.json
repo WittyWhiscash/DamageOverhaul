@@ -1,0 +1,20 @@
+{
+  "name": "Vex",
+  "icon": "minecraft:vex_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:vex",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:vex"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:vex"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:vex"
+    }
+  ]
+}

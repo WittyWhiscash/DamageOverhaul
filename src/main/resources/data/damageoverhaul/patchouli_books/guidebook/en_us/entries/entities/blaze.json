@@ -1,0 +1,24 @@
+{
+  "name": "Blaze",
+  "icon": "minecraft:blaze_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:blaze",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:blaze"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:blaze"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:blaze"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:small_fireball"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Guardian",
+  "icon": "minecraft:guardian_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:guardian",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:guardian"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:guardian"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:guardian"
+    }
+  ]
+}

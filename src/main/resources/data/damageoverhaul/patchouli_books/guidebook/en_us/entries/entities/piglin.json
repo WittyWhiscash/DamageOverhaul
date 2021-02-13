@@ -1,0 +1,20 @@
+{
+  "name": "Piglin",
+  "icon": "minecraft:piglin_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:piglin",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:piglin"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:piglin"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:piglin"
+    }
+  ]
+}

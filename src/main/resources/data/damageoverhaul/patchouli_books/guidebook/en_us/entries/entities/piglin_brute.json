@@ -1,0 +1,20 @@
+{
+  "name": "Piglin Brute",
+  "icon": "minecraft:piglin_brute_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:piglin_brute",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:piglin_brute"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:piglin_brute"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:piglin_brute"
+    }
+  ]
+}

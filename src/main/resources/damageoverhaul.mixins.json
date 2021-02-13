@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "mod.wittywhiscash.damageoverhaul.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "entity.PlayerEntityMixin",
+    "entity.LivingEntityMixin",
+    "item.ArmorItemMixin"
+  ],
+  "client": [
+    "item.ItemStackMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

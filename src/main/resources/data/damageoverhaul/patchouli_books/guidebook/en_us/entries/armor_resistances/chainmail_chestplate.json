@@ -1,0 +1,12 @@
+{
+  "name": "Chainmail Chestplate",
+  "icon": "minecraft:chainmail_chestplate",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:chainmail_chestplate",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:chainmail_chestplate"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Ravager",
+  "icon": "minecraft:ravager_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:ravager",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:ravager"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:ravager"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:ravager"
+    }
+  ]
+}

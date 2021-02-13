@@ -1,0 +1,20 @@
+{
+  "name": "Magma Cube",
+  "icon": "minecraft:magma_cube_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:magma_cube",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:magma_cube"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:magma_cube"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:magma_cube"
+    }
+  ]
+}

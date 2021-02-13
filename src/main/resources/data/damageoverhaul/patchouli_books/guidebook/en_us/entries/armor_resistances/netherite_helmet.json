@@ -1,0 +1,12 @@
+{
+  "name": "Netherite Helmet",
+  "icon": "minecraft:netherite_helmet",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:netherite_helmet",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:netherite_helmet"
+    }
+  ]
+}

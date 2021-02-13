@@ -1,0 +1,12 @@
+{
+  "name": "Diamond Boots",
+  "icon": "minecraft:diamond_boots",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:diamond_boots",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:diamond_boots"
+    }
+  ]
+}

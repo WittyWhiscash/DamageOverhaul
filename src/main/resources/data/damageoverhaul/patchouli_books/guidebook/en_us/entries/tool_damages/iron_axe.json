@@ -1,0 +1,12 @@
+{
+  "name": "Iron Axe",
+  "icon": "minecraft:iron_axe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:iron_axe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:iron_axe"
+    }
+  ]
+}

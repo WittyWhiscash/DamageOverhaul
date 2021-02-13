@@ -1,0 +1,20 @@
+{
+  "name": "Zombified Piglin",
+  "icon": "minecraft:zombified_piglin_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:zombified_piglin",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:zombified_piglin"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:zombified_piglin"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:zombified_piglin"
+    }
+  ]
+}

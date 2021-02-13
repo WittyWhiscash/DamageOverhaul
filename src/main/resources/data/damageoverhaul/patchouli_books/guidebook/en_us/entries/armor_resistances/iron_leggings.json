@@ -1,0 +1,12 @@
+{
+  "name": "Iron Leggings",
+  "icon": "minecraft:iron_leggings",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:iron_leggings",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:iron_leggings"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Diamond Shovel",
+  "icon": "minecraft:diamond_shovel",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:diamond_shovel",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:diamond_shovel"
+    }
+  ]
+}

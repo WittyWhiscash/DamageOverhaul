@@ -1,0 +1,12 @@
+{
+  "name": "Golden Pickaxe",
+  "icon": "minecraft:golden_pickaxe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:golden_pickaxe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:golden_pickaxe"
+    }
+  ]
+}

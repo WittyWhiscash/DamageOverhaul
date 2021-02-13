@@ -1,0 +1,12 @@
+{
+  "name": "Iron Chestplate",
+  "icon": "minecraft:iron_chestplate",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:iron_chestplate",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:iron_chestplate"
+    }
+  ]
+}

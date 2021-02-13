@@ -1,0 +1,20 @@
+{
+  "name": "Husk",
+  "icon": "minecraft:husk_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:husk",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:husk"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:husk"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:husk"
+    }
+  ]
+}

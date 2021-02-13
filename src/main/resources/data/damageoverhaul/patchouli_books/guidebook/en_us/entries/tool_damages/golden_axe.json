@@ -1,0 +1,12 @@
+{
+  "name": "Golden Axe",
+  "icon": "minecraft:golden_axe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:golden_axe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:golden_axe"
+    }
+  ]
+}

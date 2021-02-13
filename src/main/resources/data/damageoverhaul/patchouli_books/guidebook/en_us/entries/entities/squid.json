@@ -1,0 +1,16 @@
+{
+  "name": "Squid",
+  "icon": "minecraft:squid_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:squid",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:squid"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:squid"
+    }
+  ]
+}

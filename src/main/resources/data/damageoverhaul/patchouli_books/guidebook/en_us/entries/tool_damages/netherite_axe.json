@@ -1,0 +1,12 @@
+{
+  "name": "Netherite Axe",
+  "icon": "minecraft:netherite_axe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:netherite_axe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:netherite_axe"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Salmon",
+  "icon": "minecraft:salmon_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:salmon",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:salmon"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:salmon"
+    }
+  ]
+}

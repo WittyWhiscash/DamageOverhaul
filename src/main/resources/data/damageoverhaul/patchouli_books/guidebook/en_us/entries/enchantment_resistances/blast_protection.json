@@ -1,0 +1,12 @@
+{
+  "name": "Blast Protection",
+  "icon": "minecraft:enchanted_book",
+  "category": "enchantment_resistances",
+  "flag": "damageoverhaul:blast_protection",
+  "pages": [
+    {
+      "type": "enchantment_resistance",
+      "enchantment": "minecraft:blast_protection"
+    }
+  ]
+}

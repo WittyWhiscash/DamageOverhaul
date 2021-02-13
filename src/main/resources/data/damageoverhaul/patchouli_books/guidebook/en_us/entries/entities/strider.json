@@ -1,0 +1,16 @@
+{
+  "name": "Strider",
+  "icon": "minecraft:strider_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:strider",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:strider"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:strider"
+    }
+  ]
+}

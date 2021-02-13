@@ -1,0 +1,12 @@
+{
+  "name": "Netherite Pickaxe",
+  "icon": "minecraft:netherite_pickaxe",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:netherite_pickaxe",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:netherite_pickaxe"
+    }
+  ]
+}

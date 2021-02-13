@@ -1,0 +1,20 @@
+{
+  "name": "Pillager",
+  "icon": "minecraft:pillager_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:pillager",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:pillager"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:pillager"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:arrow"
+    }
+  ]
+}

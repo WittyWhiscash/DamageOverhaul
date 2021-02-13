@@ -1,0 +1,20 @@
+{
+  "name": "Cave Spider",
+  "icon": "minecraft:cave_spider_spawn_egg",
+  "category": "entities",
+  "flag": "damageoverhaul:cave_spider",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:cave_spider"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:cave_spider"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:cave_spider"
+    }
+  ]
+}

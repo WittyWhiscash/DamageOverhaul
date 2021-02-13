@@ -1,0 +1,12 @@
+{
+  "name": "Diamond Helmet",
+  "icon": "minecraft:diamond_helmet",
+  "category": "armor_resistances",
+  "flag": "damageoverhaul:diamond_helmet",
+  "pages": [
+    {
+      "type": "armor_resistance",
+      "item": "minecraft:diamond_helmet"
+    }
+  ]
+}

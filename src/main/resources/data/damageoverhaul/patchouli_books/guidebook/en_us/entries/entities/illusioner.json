@@ -1,0 +1,20 @@
+{
+  "name": "Illusioner",
+  "icon": "minecraft:air",
+  "category": "entities",
+  "flag": "damageoverhaul:illusioner",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:illusioner"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:illusioner"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:arrow"
+    }
+  ]
+}

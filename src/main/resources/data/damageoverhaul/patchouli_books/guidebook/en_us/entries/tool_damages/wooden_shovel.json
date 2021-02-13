@@ -1,0 +1,12 @@
+{
+  "name": "Wooden Shovel",
+  "icon": "minecraft:wooden_shovel",
+  "category": "tool_damages",
+  "flag": "damageoverhaul:wooden_shovel",
+  "pages": [
+    {
+      "type": "tool_damage",
+      "item": "minecraft:wooden_shovel"
+    }
+  ]
+}

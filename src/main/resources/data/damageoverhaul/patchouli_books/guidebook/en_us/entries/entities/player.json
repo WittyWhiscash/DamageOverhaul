@@ -1,0 +1,20 @@
+{
+  "name": "Player",
+  "icon": "minecraft:air",
+  "category": "entities",
+  "flag": "damageoverhaul:player",
+  "pages": [
+    {
+      "type": "entity_landing",
+      "entity": "minecraft:player"
+    },
+    {
+      "type": "entity_resistance",
+      "entity": "minecraft:player"
+    },
+    {
+      "type": "entity_damage",
+      "entity": "minecraft:player"
+    }
+  ]
+}
