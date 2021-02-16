@@ -7,8 +7,8 @@ import java.util.Optional;
 public class DamageAttribute {
 
 
-    private final DamageCondition damageCondition;
-    private final Float modifier;
+    private DamageCondition damageCondition;
+    private Float modifier;
 
     public DamageAttribute() {
         this.damageCondition = null;
@@ -30,11 +30,9 @@ public class DamageAttribute {
         this.modifier = mod;
     }
 
-    public DamageCondition getDamageCondition() {
-        return damageCondition;
-    }
+    public DamageCondition getDamageCondition() { return damageCondition; }
+    public void setDamageCondition(DamageCondition condition) { this.damageCondition = condition; }
 
-    public Float getModifier() {
-        return modifier;
-    }
+    public Float getModifier() { return modifier; }
+    public void setModifier(Float modifier) { this.modifier = modifier; }
 }

@@ -17,6 +17,7 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import org.apache.logging.log4j.Level;
 
 import java.util.*;
@@ -103,20 +104,32 @@ public class DamageUtils {
                 switch (resistanceSpread.get(type).getDamageCondition()) {
                     case IMMUNE:
                         damageToModify = 0;
+                        if (target.world instanceof ServerWorld) {
+                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.IMMUNE_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
+                            DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
+                        }
                         damageArray.replace(type, damageToModify);
                         break;
                     case RESISTANT:
                         damageToModify *= 1 - resistanceSpread.get(type).getModifier();
+                        if (target.world instanceof ServerWorld) {
+                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.IMMUNE_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
+                            DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
+                        }
                         damageArray.replace(type, damageToModify);
                         break;
                     case WEAK:
                         damageToModify *= 1 + resistanceSpread.get(type).getModifier();
+                        if (target.world instanceof ServerWorld) {
+                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.IMMUNE_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
+                            DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
+                        }
                         damageArray.replace(type, damageToModify);
                         break;
                     case VULNERABLE:
                         damageToModify *= 2;
-                        for (ServerPlayerEntity entity : PlayerLookup.tracking(target)) {
-                            ServerSidePacketRegistryImpl.INSTANCE.sendToPlayer(entity, new ParticleS2CPacket(DamageOverhaul.VULNERABLE_PARTICLE, false, target.getX(), target.getY(), target.getZ(), 0.4f, 0.4f, 0.4f, 1.0F, target.getRandom().nextInt(3)));
+                        if (target.world instanceof ServerWorld) {
+                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.IMMUNE_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
                             DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
                         }
                         damageArray.replace(type, damageToModify);

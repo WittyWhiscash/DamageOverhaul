@@ -10,7 +10,7 @@ import java.util.*;
 
 public class ArmorResistances {
 
-    private final Map<String, Map<String, DamageAttribute>> armorResistanceDatabase = new LinkedHashMap<>();
+    private Map<String, Map<String, DamageAttribute>> armorResistanceDatabase = new LinkedHashMap<>();
     private static final Map<Item, Map<DamageType, DamageAttribute>> armorResistanceDatabase_internal = new LinkedHashMap<>();
     private static final Set<Item> armorItems = new HashSet<>();
 
@@ -18,9 +18,8 @@ public class ArmorResistances {
 
     private ArmorResistances() {}
 
-    public Map<String, Map<String, DamageAttribute>> getArmorResistanceDatabase() {
-        return armorResistanceDatabase;
-    }
+    public Map<String, Map<String, DamageAttribute>> getArmorResistanceDatabase() { return armorResistanceDatabase; }
+    public void setArmorResistanceDatabase(Map<String, Map<String, DamageAttribute>> database) { this.armorResistanceDatabase = database; }
 
     public static ArmorResistances getInstance() {
         if (Objects.isNull(instance)) {

@@ -9,7 +9,7 @@ import java.util.*;
 public class DamageSources {
 
 
-    private final Map<String, Map<String, DamageAttribute>> damageSourceDatabase = new LinkedHashMap<>();
+    private Map<String, Map<String, DamageAttribute>> damageSourceDatabase = new LinkedHashMap<>();
     private static final Map<DamageSource, Map<DamageType, DamageAttribute>> damageSourceDatabase_internal = new LinkedHashMap<>();
     private static final Set<DamageSource> damageSources = new HashSet<>();
 
@@ -24,9 +24,8 @@ public class DamageSources {
         return instance;
     }
 
-    public Map<String, Map<String, DamageAttribute>> getDamageSourceDatabase() {
-        return damageSourceDatabase;
-    }
+    public Map<String, Map<String, DamageAttribute>> getDamageSourceDatabase() { return damageSourceDatabase; }
+    public void setDamageSourceDatabase(Map<String, Map<String, DamageAttribute>> damageSourceDatabase) { this.damageSourceDatabase = damageSourceDatabase; }
 
     public void registerTypedDamageSource(DamageSource source, Map<DamageType, DamageAttribute> damageSpread) {
         if (!damageSourceDatabase_internal.containsKey(source)) {

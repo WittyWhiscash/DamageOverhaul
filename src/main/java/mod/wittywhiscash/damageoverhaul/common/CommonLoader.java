@@ -1,26 +1,18 @@
 package mod.wittywhiscash.damageoverhaul.common;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.collect.Sets;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
-import com.swordglowsblue.artifice.api.resource.StringResource;
-import com.swordglowsblue.artifice.api.resource.TemplateResource;
 import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
 import mod.wittywhiscash.damageoverhaul.DamageOverhaul;
 import mod.wittywhiscash.damageoverhaul.api.DamageCondition;
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
 import mod.wittywhiscash.damageoverhaul.client.patchouli.PatchouliJSONGenerator;
+import mod.wittywhiscash.damageoverhaul.common.config.DamageOverhaulConfig;
 import mod.wittywhiscash.damageoverhaul.common.damage.DamageAttribute;
 import mod.wittywhiscash.damageoverhaul.common.database.*;
-import mod.wittywhiscash.damageoverhaul.common.database.defaults.DefaultEntityDamages;
 import mod.wittywhiscash.damageoverhaul.common.database.defaults.DefaultEntityResistances;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.Enchantment;
@@ -29,13 +21,14 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
-import org.lwjgl.system.CallbackI;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.introspector.BeanAccess;
+import org.yaml.snakeyaml.nodes.Tag;
 import vazkii.patchouli.api.PatchouliAPI;
 
 import java.io.*;
@@ -50,23 +43,32 @@ public class CommonLoader {
 
         AttributeDatabase database = DamageOverhaul.ATTRIBUTE_DATABASE;
         database.init();
-
         File configDir = loader.getConfigDir().toFile();
         Path configPath = Paths.get(configDir.toString(), DamageOverhaul.MOD_ID);
-        ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory())
-                .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        options.setPrettyFlow(true);
+        options.setAllowReadOnlyProperties(true);
+        Yaml yaml = new Yaml(options);
+        Writer writer;
+        Reader reader;
 
         Path generalConfigYaml = Paths.get(configDir.toString(), "damageOverhaul.yaml");
         if (!Files.exists(generalConfigYaml)) {
             try {
-                objectMapper.writeValue(generalConfigYaml.toFile(), DamageOverhaul.CONFIG);
+                writer = Files.newBufferedWriter(generalConfigYaml);
+                String toWrite = yaml.dumpAs(DamageOverhaul.CONFIG, Tag.MAP, null);
+                writer.write(toWrite);
+                writer.close();
             } catch (IOException e) {
                 DamageOverhaul.log(Level.ERROR, e.getMessage());
             }
         }
 
         try {
-            DamageOverhaul.CONFIG.loadConfig(objectMapper);
+            reader = Files.newBufferedReader(generalConfigYaml);
+            DamageOverhaulConfig config = yaml.loadAs(reader, DamageOverhaulConfig.class);
+            DamageOverhaul.CONFIG.loadConfig(config);
         } catch (Exception e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
@@ -76,14 +78,18 @@ public class CommonLoader {
         Path vanillaDamageTypesYaml = Paths.get(configPath.toString(), "damageTypes_vanilla.yaml");
         if (!Files.exists(vanillaDamageTypesYaml)) {
             try {
-                objectMapper.writeValue(vanillaDamageTypesYaml.toFile(), database.getDamageTypeDatabase());
+                writer = Files.newBufferedWriter(vanillaDamageTypesYaml);
+                String toWrite = yaml.dumpAs(database.getDamageTypeDatabase(), Tag.MAP, null);
+                writer.write(toWrite);
+                writer.close();
             } catch (IOException e) {
                 DamageOverhaul.log(Level.ERROR, e.getMessage());
             }
         }
 
         try {
-            parseDamageTypesYaml(objectMapper.readValue(vanillaDamageTypesYaml.toFile(), DamageTypes.class));
+            reader = Files.newBufferedReader(vanillaDamageTypesYaml);
+            parseDamageTypesYaml(yaml.loadAs(reader, DamageTypes.class));
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
@@ -91,7 +97,10 @@ public class CommonLoader {
         Path vanillaDamageSourcesYaml = Paths.get(configPath.toString(), "damageSources_vanilla.yaml");
         if (!Files.exists(vanillaDamageSourcesYaml)) {
             try {
-                objectMapper.writeValue(vanillaDamageSourcesYaml.toFile(), database.getDamageSourceDatabase());
+                writer = Files.newBufferedWriter(vanillaDamageSourcesYaml);
+                String toWrite = yaml.dumpAsMap(database.getDamageSourceDatabase());
+                writer.write(toWrite);
+                writer.close();
             } catch (IOException e) {
                 DamageOverhaul.log(Level.ERROR, e.getMessage());
             }
@@ -100,7 +109,10 @@ public class CommonLoader {
         Path vanillaArmorResistancesYaml = Paths.get(configPath.toString(), "armorResistances_vanilla.yaml");
         if (!Files.exists(vanillaArmorResistancesYaml)) {
             try {
-                objectMapper.writeValue(vanillaArmorResistancesYaml.toFile(), database.getArmorResistanceDatabase());
+                writer = Files.newBufferedWriter(vanillaArmorResistancesYaml);
+                String toWrite = yaml.dumpAs(database.getArmorResistanceDatabase(), Tag.MAP, null);
+                writer.write(toWrite);
+                writer.close();
             } catch (IOException e) {
                 DamageOverhaul.log(Level.ERROR, e.getMessage());
             }
@@ -109,7 +121,10 @@ public class CommonLoader {
         Path vanillaEntityResistancesYaml = Paths.get(configPath.toString(), "entityResistances_vanilla.yaml");
         if (!Files.exists(vanillaEntityResistancesYaml)) {
             try {
-                objectMapper.writeValue(vanillaEntityResistancesYaml.toFile(), database.getEntityResistanceDatabase());
+                writer = Files.newBufferedWriter(vanillaEntityResistancesYaml);
+                String toWrite = yaml.dumpAs(database.getEntityResistanceDatabase(), Tag.MAP, null);
+                writer.write(toWrite);
+                writer.close();
             } catch (IOException e) {
                 DamageOverhaul.log(Level.ERROR, e.getMessage());
             }
@@ -118,7 +133,10 @@ public class CommonLoader {
         Path vanillaEntityDamagesYaml = Paths.get(configPath.toString(), "entityDamages_vanilla.yaml");
         if (!Files.exists(vanillaEntityDamagesYaml)) {
             try {
-                objectMapper.writeValue(vanillaEntityDamagesYaml.toFile(), database.getEntityDamageDatabase());
+                writer = Files.newBufferedWriter(vanillaEntityDamagesYaml);
+                String toWrite = yaml.dumpAs(database.getEntityDamageDatabase(), Tag.MAP, null);
+                writer.write(toWrite);
+                writer.close();
             } catch (IOException e) {
                 DamageOverhaul.log(Level.ERROR, e.getMessage());
             }
@@ -127,7 +145,10 @@ public class CommonLoader {
         Path vanillaToolDamagesYaml = Paths.get(configPath.toString(), "toolDamages_vanilla.yaml");
         if (!Files.exists(vanillaToolDamagesYaml)) {
             try {
-                objectMapper.writeValue(vanillaToolDamagesYaml.toFile(), database.getToolDamageDatabase());
+                writer = Files.newBufferedWriter(vanillaToolDamagesYaml);
+                String toWrite = yaml.dumpAs(database.getToolDamageDatabase(), Tag.MAP, null);
+                writer.write(toWrite);
+                writer.close();
             } catch (IOException e) {
                 DamageOverhaul.log(Level.ERROR, e.getMessage());
             }
@@ -136,7 +157,10 @@ public class CommonLoader {
         Path vanillaEnchantmentResistancesYaml = Paths.get(configPath.toString(), "enchantmentResistances_vanilla.yaml");
         if (!Files.exists(vanillaEnchantmentResistancesYaml)) {
             try {
-                objectMapper.writeValue(vanillaEnchantmentResistancesYaml.toFile(), database.getEnchantmentResistanceDatabase());
+                writer = Files.newBufferedWriter(vanillaEnchantmentResistancesYaml);
+                String toWrite = yaml.dumpAs(database.getEnchantmentResistanceDatabase(), Tag.MAP, null);
+                writer.write(toWrite);
+                writer.close();
             } catch (IOException e) {
                 DamageOverhaul.log(Level.ERROR, e.getMessage());
             }
@@ -163,31 +187,36 @@ public class CommonLoader {
         tryCreateDirectory(customEntityDamageYamlPath);
 
         try {
-            parseDamageSourcesYaml(objectMapper.readValue(vanillaDamageSourcesYaml.toFile(), DamageSources.class));
+            reader = Files.newBufferedReader(vanillaDamageSourcesYaml);
+            parseDamageSourcesYaml(yaml.loadAs(reader, DamageSources.class));
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
         try {
-            parseArmorResistancesYaml(objectMapper.readValue(vanillaArmorResistancesYaml.toFile(), ArmorResistances.class));
+            reader = Files.newBufferedReader(vanillaArmorResistancesYaml);
+            parseArmorResistancesYaml(yaml.loadAs(reader, ArmorResistances.class));
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
         try {
-            parseEntityDamagesYaml(objectMapper.readValue(vanillaEntityDamagesYaml.toFile(), EntityDamages.class));
+            reader = Files.newBufferedReader(vanillaEntityDamagesYaml);
+            parseEntityDamagesYaml(yaml.loadAs(reader, EntityDamages.class));
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
         try {
-            parseEntityResistancesYaml(objectMapper.readValue(vanillaEntityResistancesYaml.toFile(), EntityResistances.class));
+            reader = Files.newBufferedReader(vanillaEntityResistancesYaml);
+            parseEntityResistancesYaml(yaml.loadAs(reader, EntityResistances.class));
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
         try {
-            parseToolDamagesYaml(objectMapper.readValue(vanillaToolDamagesYaml.toFile(), ToolDamages.class));
+            reader = Files.newBufferedReader(vanillaToolDamagesYaml);
+            parseToolDamagesYaml(yaml.loadAs(reader, ToolDamages.class));
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
@@ -195,7 +224,8 @@ public class CommonLoader {
         try {
             File[] fileList = customArmorResistancesYamlPath.toFile().listFiles();
             for (File file : fileList) {
-                parseArmorResistancesYaml(objectMapper.readValue(file, ArmorResistances.class));
+                reader = Files.newBufferedReader(file.toPath());
+                parseArmorResistancesYaml(yaml.loadAs(reader, ArmorResistances.class));
             }
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
@@ -204,7 +234,8 @@ public class CommonLoader {
         try {
             File[] fileList = customEntityResistancesYamlPath.toFile().listFiles();
             for (File file : fileList) {
-                parseEntityResistancesYaml(objectMapper.readValue(file, EntityResistances.class));
+                reader = Files.newBufferedReader(file.toPath());
+                parseEntityResistancesYaml(yaml.loadAs(reader, EntityResistances.class));
             }
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
@@ -213,7 +244,8 @@ public class CommonLoader {
         try {
             File[] fileList = customToolDamagesYamlPath.toFile().listFiles();
             for (File file : fileList) {
-                parseToolDamagesYaml(objectMapper.readValue(file, ToolDamages.class));
+                reader = Files.newBufferedReader(file.toPath());
+                parseToolDamagesYaml(yaml.loadAs(reader, ToolDamages.class));
             }
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
@@ -222,7 +254,8 @@ public class CommonLoader {
         try {
             File[] fileList = customEntityDamageYamlPath.toFile().listFiles();
             for (File file : fileList) {
-                parseEntityDamagesYaml(objectMapper.readValue(file, EntityDamages.class));
+                reader = Files.newBufferedReader(file.toPath());
+                parseEntityDamagesYaml(yaml.loadAs(reader, EntityDamages.class));
             }
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
@@ -405,7 +438,7 @@ public class CommonLoader {
                                 DamageOverhaul.ATTRIBUTE_DATABASE.getEntityResistanceDatabase().getResistanceSpread(entityType).replace(DamageTypes.valueOf(damageType), new DamageAttribute(conditionDef, resistanceAmount));
                             }
                             else {
-                                DamageOverhaul.ATTRIBUTE_DATABASE.getEntityResistanceDatabase().getResistanceSpread(entityType).replace(DamageTypes.valueOf(damageType), new DamageAttribute(conditionDef, null));
+                                DamageOverhaul.ATTRIBUTE_DATABASE.getEntityResistanceDatabase().getResistanceSpread(entityType).replace(DamageTypes.valueOf(damageType), new DamageAttribute(conditionDef, -1F));
                             }
                         }
                         else {

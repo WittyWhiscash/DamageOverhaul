@@ -10,20 +10,16 @@ import java.util.*;
 
 public class ToolDamages {
 
-    @Expose
-    private final Map<String, Map<String, DamageAttribute>> toolDamageDatabase = new LinkedHashMap<>();
+    private Map<String, Map<String, DamageAttribute>> toolDamageDatabase = new LinkedHashMap<>();
     private static final Map<Item, Map<DamageType, DamageAttribute>> toolDamageDatabase_internal = new LinkedHashMap<>();
     private static final Set<Item> toolItems = new HashSet<>();
 
     private static ToolDamages instance;
 
-    private ToolDamages() {
+    private ToolDamages() { }
 
-    }
-
-    public Map<String, Map<String, DamageAttribute>> getToolDamageDatabase() {
-        return toolDamageDatabase;
-    }
+    public Map<String, Map<String, DamageAttribute>> getToolDamageDatabase() { return toolDamageDatabase; }
+    public void setToolDamageDatabase(Map<String, Map<String, DamageAttribute>> toolDamageDatabase) { this.toolDamageDatabase = toolDamageDatabase; }
 
     public static ToolDamages getInstance() {
         if (Objects.isNull(instance)) {

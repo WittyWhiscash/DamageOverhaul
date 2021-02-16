@@ -10,8 +10,7 @@ import java.util.*;
 
 public class EntityDamages {
 
-    @Expose
-    private final Map<String, Map<String, DamageAttribute>> entityDamageDatabase = new LinkedHashMap<>();
+    private Map<String, Map<String, DamageAttribute>> entityDamageDatabase = new LinkedHashMap<>();
     private static final Map<EntityType<?>, Map<DamageType, DamageAttribute>> entityDamageDatabase_internal = new LinkedHashMap<>();
     private static final Set<EntityType<?>> entityTypes = new HashSet<>();
 
@@ -29,6 +28,7 @@ public class EntityDamages {
     public Map<String, Map<String, DamageAttribute>> getEntityDamageDatabase() {
         return entityDamageDatabase;
     }
+    public void setEntityDamageDatabase(Map<String, Map<String, DamageAttribute>> entityDamageDatabase) { this.entityDamageDatabase = entityDamageDatabase; }
 
     public void registerEntityDamageSpread(EntityType<?> type, Map<DamageType, DamageAttribute> damageSpread) {
         if (!entityDamageDatabase_internal.containsKey(type)) {

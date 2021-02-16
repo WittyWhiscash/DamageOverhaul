@@ -7,7 +7,7 @@ import java.util.*;
 
 public class DamageTypes {
 
-    private final Map<String, String> damageTypeRegistry = new LinkedHashMap<>();
+    private Map<String, String> damageTypeRegistry = new LinkedHashMap<>();
     private static final Map<String, DamageType> damageTypeRegistry_internal = new LinkedHashMap<>();
     private static final Set<DamageType> damageTypes = new HashSet<>();
 
@@ -17,9 +17,8 @@ public class DamageTypes {
 
     }
 
-    public Map<String, String> getDamageTypeRegistry() {
-        return damageTypeRegistry;
-    }
+    public Map<String, String> getDamageTypeRegistry() { return damageTypeRegistry; }
+    public void setDamageTypeRegistry(Map<String, String> registry) { this.damageTypeRegistry = registry; }
 
     public static DamageTypes getInstance() {
         if (Objects.isNull(instance)) {

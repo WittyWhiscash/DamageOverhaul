@@ -19,7 +19,9 @@
     "main": [
       "mod.wittywhiscash.damageoverhaul.DamageOverhaul"
     ],
-    "client": [],
+    "client": [
+      "mod.wittywhiscash.damageoverhaul.DamageOverhaul"
+    ],
     "server": [],
     "modmenu": [
       "mod.wittywhiscash.damageoverhaul.client.ModMenuImpl"

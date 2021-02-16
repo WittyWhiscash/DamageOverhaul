@@ -1,15 +1,15 @@
 package mod.wittywhiscash.damageoverhaul.common.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import mod.wittywhiscash.damageoverhaul.DamageOverhaul;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.math.MathHelper;
 import org.apache.logging.log4j.Level;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Objects;
 
 public class DamageOverhaulConfig {
 
@@ -113,41 +113,37 @@ public class DamageOverhaulConfig {
     }
 
     public void saveConfig() {
-        ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
+        Yaml yaml = new Yaml();
         validateConfig(this);
         try {
-            objectMapper.writeValue(Paths.get(FabricLoader.getInstance().getConfigDir().toString(), "damageOverhaul.yaml").toFile(), DamageOverhaul.CONFIG);
+            Writer writer = Files.newBufferedWriter(Paths.get(FabricLoader.getInstance().getConfigDir().toString(), "damageOverhaul.yaml"));
+            yaml.dump(DamageOverhaul.CONFIG, writer);
+            writer.close();
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
     }
 
-    public void loadConfig(ObjectMapper objectMapper) {
-        try {
-            DamageOverhaulConfig config = objectMapper.readValue(Paths.get(FabricLoader.getInstance().getConfigDir().toString(), "damageOverhaul.yaml").toFile(), DamageOverhaulConfig.class);
+    public void loadConfig(DamageOverhaulConfig config) {
+        this.ARMOR_EFFECTIVENESS.setDamageMagnitude(config.ARMOR_EFFECTIVENESS.getDamageMagnitude());
+        this.ARMOR_EFFECTIVENESS.setDamageNumDecreaseMagnitude(config.ARMOR_EFFECTIVENESS.getDamageNumDecreaseMagnitude());
+        this.ARMOR_EFFECTIVENESS.setDamageTypeMultiplier(config.ARMOR_EFFECTIVENESS.getDamageTypeMultiplier());
+        this.ARMOR_EFFECTIVENESS.setToughnessEffectiveness(config.ARMOR_EFFECTIVENESS.getToughnessEffectiveness());
+        this.ARMOR_EFFECTIVENESS.setToughnessEffectivenessReduction(config.ARMOR_EFFECTIVENESS.getToughnessEffectivenessReduction());
 
-            this.ARMOR_EFFECTIVENESS.setDamageMagnitude(config.ARMOR_EFFECTIVENESS.getDamageMagnitude());
-            this.ARMOR_EFFECTIVENESS.setDamageNumDecreaseMagnitude(config.ARMOR_EFFECTIVENESS.getDamageNumDecreaseMagnitude());
-            this.ARMOR_EFFECTIVENESS.setDamageTypeMultiplier(config.ARMOR_EFFECTIVENESS.getDamageTypeMultiplier());
-            this.ARMOR_EFFECTIVENESS.setToughnessEffectiveness(config.ARMOR_EFFECTIVENESS.getToughnessEffectiveness());
-            this.ARMOR_EFFECTIVENESS.setToughnessEffectivenessReduction(config.ARMOR_EFFECTIVENESS.getToughnessEffectivenessReduction());
+        this.DAMAGE_EFFECTIVENESS.setFinalReduction(config.DAMAGE_EFFECTIVENESS.getFinalReduction());
+        this.DAMAGE_EFFECTIVENESS.setBaseDecay(config.DAMAGE_EFFECTIVENESS.getBaseDecay());
+        this.DAMAGE_EFFECTIVENESS.setToughnessDecay(config.DAMAGE_EFFECTIVENESS.getToughnessDecay());
+        this.DAMAGE_EFFECTIVENESS.setToughnessReduction(config.DAMAGE_EFFECTIVENESS.getToughnessReduction());
 
-            this.DAMAGE_EFFECTIVENESS.setFinalReduction(config.DAMAGE_EFFECTIVENESS.getFinalReduction());
-            this.DAMAGE_EFFECTIVENESS.setBaseDecay(config.DAMAGE_EFFECTIVENESS.getBaseDecay());
-            this.DAMAGE_EFFECTIVENESS.setToughnessDecay(config.DAMAGE_EFFECTIVENESS.getToughnessDecay());
-            this.DAMAGE_EFFECTIVENESS.setToughnessReduction(config.DAMAGE_EFFECTIVENESS.getToughnessReduction());
+        this.DEBUG.setLoaderDebug(config.DEBUG.getLoaderDebug());
+        this.DEBUG.setDamageDebug(config.DEBUG.getDamageDebug());
+        this.DEBUG.setColorblindMode(config.DEBUG.getColorblindMode());
 
-            this.DEBUG.setLoaderDebug(config.DEBUG.getLoaderDebug());
-            this.DEBUG.setDamageDebug(config.DEBUG.getDamageDebug());
-            this.DEBUG.setColorblindMode(config.DEBUG.getColorblindMode());
+        this.DAMAGE.setMagicModifier(config.DAMAGE.getMagicModifier());
+        this.DAMAGE.setClampModsOnLoad(config.DAMAGE.getClampModsOnLoad());
 
-            this.DAMAGE.setMagicModifier(config.DAMAGE.getMagicModifier());
-            this.DAMAGE.setClampModsOnLoad(config.DAMAGE.getClampModsOnLoad());
-
-            validateConfig(this);
-        } catch (IOException e) {
-            DamageOverhaul.log(Level.ERROR, e.getMessage());
-        }
+        validateConfig(this);
     }
 
     public void validateConfig(DamageOverhaulConfig config) {

@@ -9,19 +9,16 @@ import java.util.*;
 
 public class EntityResistances {
 
-    private final Map<String, Map<String, DamageAttribute>> entityResistanceDatabase = new LinkedHashMap<>();
+    private Map<String, Map<String, DamageAttribute>> entityResistanceDatabase = new LinkedHashMap<>();
     private static final Map<EntityType<?>, Map<DamageType, DamageAttribute>> entityResistanceDatabase_internal = new LinkedHashMap<>();
     private static final Set<EntityType<?>> entityTypes = new HashSet<>();
 
     private static EntityResistances instance;
 
-    private EntityResistances() {
+    private EntityResistances() { }
 
-    }
-
-    public Map<String, Map<String, DamageAttribute>> getEntityResistanceDatabase() {
-        return entityResistanceDatabase;
-    }
+    public Map<String, Map<String, DamageAttribute>> getEntityResistanceDatabase() { return entityResistanceDatabase; }
+    public void setEntityResistanceDatabase(Map<String, Map<String, DamageAttribute>> entityResistanceDatabase) { this.entityResistanceDatabase = entityResistanceDatabase; }
 
     public static EntityResistances getInstance() {
         if (Objects.isNull(instance)) {
