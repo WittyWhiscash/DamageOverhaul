@@ -17,6 +17,10 @@ public class EntityResistances {
 
     private EntityResistances() { }
 
+    public EntityResistances(Map<String, Map<String, DamageAttribute>> database) {
+        this.entityResistanceDatabase = database;
+    }
+
     public Map<String, Map<String, DamageAttribute>> getEntityResistanceDatabase() { return entityResistanceDatabase; }
     public void setEntityResistanceDatabase(Map<String, Map<String, DamageAttribute>> entityResistanceDatabase) { this.entityResistanceDatabase = entityResistanceDatabase; }
 

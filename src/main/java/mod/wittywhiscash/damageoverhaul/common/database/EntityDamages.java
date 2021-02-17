@@ -18,6 +18,10 @@ public class EntityDamages {
 
     private EntityDamages() {}
 
+    public EntityDamages(Map<String, Map<String, DamageAttribute>> database) {
+        this.entityDamageDatabase = database;
+    }
+
     public static EntityDamages getInstance() {
         if (Objects.isNull(instance)) {
             instance = new EntityDamages();

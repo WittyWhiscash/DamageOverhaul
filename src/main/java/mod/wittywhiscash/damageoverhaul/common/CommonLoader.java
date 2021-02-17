@@ -26,9 +26,16 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.Level;
 import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.introspector.BeanAccess;
-import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.introspector.Property;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
+import org.yaml.snakeyaml.nodes.*;
+import org.yaml.snakeyaml.representer.Represent;
+import org.yaml.snakeyaml.representer.Representer;
 import vazkii.patchouli.api.PatchouliAPI;
 
 import java.io.*;
@@ -49,7 +56,11 @@ public class CommonLoader {
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         options.setPrettyFlow(true);
         options.setAllowReadOnlyProperties(true);
-        Yaml yaml = new Yaml(options);
+        options.setNonPrintableStyle(DumperOptions.NonPrintableStyle.ESCAPE);
+        Representer representer = new NonNullRepresenter();
+        representer.addClassTag(DamageAttribute.class, Tag.MAP);
+        Yaml dumperYaml = new Yaml(representer, options);
+        Yaml readerYaml = new Yaml(new DamageAttributeConstructor());
         Writer writer;
         Reader reader;
 
@@ -57,7 +68,7 @@ public class CommonLoader {
         if (!Files.exists(generalConfigYaml)) {
             try {
                 writer = Files.newBufferedWriter(generalConfigYaml);
-                String toWrite = yaml.dumpAs(DamageOverhaul.CONFIG, Tag.MAP, null);
+                String toWrite = dumperYaml.dumpAs(DamageOverhaul.CONFIG, Tag.MAP, null);
                 writer.write(toWrite);
                 writer.close();
             } catch (IOException e) {
@@ -67,7 +78,7 @@ public class CommonLoader {
 
         try {
             reader = Files.newBufferedReader(generalConfigYaml);
-            DamageOverhaulConfig config = yaml.loadAs(reader, DamageOverhaulConfig.class);
+            DamageOverhaulConfig config = readerYaml.loadAs(reader, DamageOverhaulConfig.class);
             DamageOverhaul.CONFIG.loadConfig(config);
         } catch (Exception e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
@@ -79,7 +90,7 @@ public class CommonLoader {
         if (!Files.exists(vanillaDamageTypesYaml)) {
             try {
                 writer = Files.newBufferedWriter(vanillaDamageTypesYaml);
-                String toWrite = yaml.dumpAs(database.getDamageTypeDatabase(), Tag.MAP, null);
+                String toWrite = dumperYaml.dumpAs(database.getDamageTypeDatabase(), Tag.MAP, null);
                 writer.write(toWrite);
                 writer.close();
             } catch (IOException e) {
@@ -89,7 +100,7 @@ public class CommonLoader {
 
         try {
             reader = Files.newBufferedReader(vanillaDamageTypesYaml);
-            parseDamageTypesYaml(yaml.loadAs(reader, DamageTypes.class));
+            parseDamageTypesYaml(readerYaml.loadAs(reader, DamageTypes.class));
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
@@ -98,7 +109,7 @@ public class CommonLoader {
         if (!Files.exists(vanillaDamageSourcesYaml)) {
             try {
                 writer = Files.newBufferedWriter(vanillaDamageSourcesYaml);
-                String toWrite = yaml.dumpAsMap(database.getDamageSourceDatabase());
+                String toWrite = dumperYaml.dumpAsMap(database.getDamageSourceDatabase());
                 writer.write(toWrite);
                 writer.close();
             } catch (IOException e) {
@@ -110,7 +121,7 @@ public class CommonLoader {
         if (!Files.exists(vanillaArmorResistancesYaml)) {
             try {
                 writer = Files.newBufferedWriter(vanillaArmorResistancesYaml);
-                String toWrite = yaml.dumpAs(database.getArmorResistanceDatabase(), Tag.MAP, null);
+                String toWrite = dumperYaml.dumpAs(database.getArmorResistanceDatabase(), Tag.MAP, null);
                 writer.write(toWrite);
                 writer.close();
             } catch (IOException e) {
@@ -122,7 +133,7 @@ public class CommonLoader {
         if (!Files.exists(vanillaEntityResistancesYaml)) {
             try {
                 writer = Files.newBufferedWriter(vanillaEntityResistancesYaml);
-                String toWrite = yaml.dumpAs(database.getEntityResistanceDatabase(), Tag.MAP, null);
+                String toWrite = dumperYaml.dumpAs(database.getEntityResistanceDatabase(), Tag.MAP, null);
                 writer.write(toWrite);
                 writer.close();
             } catch (IOException e) {
@@ -134,7 +145,7 @@ public class CommonLoader {
         if (!Files.exists(vanillaEntityDamagesYaml)) {
             try {
                 writer = Files.newBufferedWriter(vanillaEntityDamagesYaml);
-                String toWrite = yaml.dumpAs(database.getEntityDamageDatabase(), Tag.MAP, null);
+                String toWrite = dumperYaml.dumpAs(database.getEntityDamageDatabase(), Tag.MAP, null);
                 writer.write(toWrite);
                 writer.close();
             } catch (IOException e) {
@@ -146,7 +157,7 @@ public class CommonLoader {
         if (!Files.exists(vanillaToolDamagesYaml)) {
             try {
                 writer = Files.newBufferedWriter(vanillaToolDamagesYaml);
-                String toWrite = yaml.dumpAs(database.getToolDamageDatabase(), Tag.MAP, null);
+                String toWrite = dumperYaml.dumpAs(database.getToolDamageDatabase(), Tag.MAP, null);
                 writer.write(toWrite);
                 writer.close();
             } catch (IOException e) {
@@ -158,7 +169,7 @@ public class CommonLoader {
         if (!Files.exists(vanillaEnchantmentResistancesYaml)) {
             try {
                 writer = Files.newBufferedWriter(vanillaEnchantmentResistancesYaml);
-                String toWrite = yaml.dumpAs(database.getEnchantmentResistanceDatabase(), Tag.MAP, null);
+                String toWrite = dumperYaml.dumpAs(database.getEnchantmentResistanceDatabase(), Tag.MAP, null);
                 writer.write(toWrite);
                 writer.close();
             } catch (IOException e) {
@@ -188,35 +199,35 @@ public class CommonLoader {
 
         try {
             reader = Files.newBufferedReader(vanillaDamageSourcesYaml);
-            parseDamageSourcesYaml(yaml.loadAs(reader, DamageSources.class));
+            parseDamageSourcesYaml(readerYaml.loadAs(reader, DamageSources.class));
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
         try {
             reader = Files.newBufferedReader(vanillaArmorResistancesYaml);
-            parseArmorResistancesYaml(yaml.loadAs(reader, ArmorResistances.class));
+            parseArmorResistancesYaml(readerYaml.loadAs(reader, ArmorResistances.class));
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
         try {
             reader = Files.newBufferedReader(vanillaEntityDamagesYaml);
-            parseEntityDamagesYaml(yaml.loadAs(reader, EntityDamages.class));
+            parseEntityDamagesYaml(readerYaml.loadAs(reader, EntityDamages.class));
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
         try {
             reader = Files.newBufferedReader(vanillaEntityResistancesYaml);
-            parseEntityResistancesYaml(yaml.loadAs(reader, EntityResistances.class));
+            parseEntityResistancesYaml(readerYaml.loadAs(reader, EntityResistances.class));
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
         try {
             reader = Files.newBufferedReader(vanillaToolDamagesYaml);
-            parseToolDamagesYaml(yaml.loadAs(reader, ToolDamages.class));
+            parseToolDamagesYaml(readerYaml.loadAs(reader, ToolDamages.class));
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
@@ -225,7 +236,7 @@ public class CommonLoader {
             File[] fileList = customArmorResistancesYamlPath.toFile().listFiles();
             for (File file : fileList) {
                 reader = Files.newBufferedReader(file.toPath());
-                parseArmorResistancesYaml(yaml.loadAs(reader, ArmorResistances.class));
+                parseArmorResistancesYaml(readerYaml.loadAs(reader, ArmorResistances.class));
             }
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
@@ -235,7 +246,7 @@ public class CommonLoader {
             File[] fileList = customEntityResistancesYamlPath.toFile().listFiles();
             for (File file : fileList) {
                 reader = Files.newBufferedReader(file.toPath());
-                parseEntityResistancesYaml(yaml.loadAs(reader, EntityResistances.class));
+                parseEntityResistancesYaml(readerYaml.loadAs(reader, EntityResistances.class));
             }
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
@@ -245,7 +256,7 @@ public class CommonLoader {
             File[] fileList = customToolDamagesYamlPath.toFile().listFiles();
             for (File file : fileList) {
                 reader = Files.newBufferedReader(file.toPath());
-                parseToolDamagesYaml(yaml.loadAs(reader, ToolDamages.class));
+                parseToolDamagesYaml(readerYaml.loadAs(reader, ToolDamages.class));
             }
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
@@ -255,7 +266,7 @@ public class CommonLoader {
             File[] fileList = customEntityDamageYamlPath.toFile().listFiles();
             for (File file : fileList) {
                 reader = Files.newBufferedReader(file.toPath());
-                parseEntityDamagesYaml(yaml.loadAs(reader, EntityDamages.class));
+                parseEntityDamagesYaml(readerYaml.loadAs(reader, EntityDamages.class));
             }
         } catch (IOException e) {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
@@ -530,6 +541,159 @@ public class CommonLoader {
         for (String registryName : types.getDamageTypeRegistry().values()) {
             if (!DamageOverhaul.ATTRIBUTE_DATABASE.getDamageTypeDatabase().contains(registryName)) {
                 DamageOverhaul.ATTRIBUTE_DATABASE.getDamageTypeDatabase().registerDamageType(registryName);
+            }
+        }
+    }
+
+    static class NonNullRepresenter extends Representer {
+        public NonNullRepresenter() {
+            super();
+            this.nullRepresenter = new NonNullRepresent();
+        }
+
+        class NonNullRepresent implements Represent {
+
+            @Override
+            public Node representData(Object data) {
+                return representScalar(Tag.NULL, "~");
+            }
+        }
+    }
+
+    static class DamageAttributeConstructor extends Constructor {
+        public DamageAttributeConstructor() {
+            yamlClassConstructors.put(NodeId.mapping, new AttributeConstruct());
+        }
+
+        class AttributeConstruct extends Constructor.ConstructMapping {
+            @Override
+            protected Object constructJavaBean2ndStep(MappingNode node, Object object) {
+                Class<?> clazz = node.getType();
+                if (clazz.equals(DamageSources.class)) {
+                    Map<Object, Object> map = constructMapping(node);
+                    Map<String, Map<String, DamageAttribute>> databaseToReturn = new LinkedHashMap<>();
+                    Map<Object, Object> database = (Map<Object, Object>) map.get("damageSourceDatabase");
+                    for (DamageSource source : DamageSources.values()) {
+                        Map<Object, Object> sourceData = (Map<Object, Object>) database.get(source.name);
+                        Map<String, DamageAttribute> attributeMap = new LinkedHashMap<>();
+                        for (DamageType type : DamageTypes.values()) {
+                            if (sourceData.containsKey(type.getRegistryName())) {
+                                Map<Object, Object> attributeData = (Map<Object, Object>) sourceData.get(type.getRegistryName());
+                                Float modifier;
+                                for (Object key : attributeData.keySet()) {
+                                    if (key.equals("modifier")) {
+                                        modifier = ((Double) attributeData.get(key)).floatValue();
+                                        attributeMap.put(type.getRegistryName(), new DamageAttribute(null, modifier));
+                                    }
+                                }
+                            }
+                        }
+                        databaseToReturn.put(source.name, attributeMap);
+                    }
+                    return new DamageSources(databaseToReturn);
+                }
+                if (clazz.equals(ArmorResistances.class)) {
+                    Map<Object, Object> map = constructMapping(node);
+                    Map<String, Map<String, DamageAttribute>> databaseToReturn = new LinkedHashMap<>();
+                    Map<Object, Object> database = (Map<Object, Object>) map.get("armorResistanceDatabase");
+                    for (Item item : ArmorResistances.values()) {
+                        String itemID = Registry.ITEM.getId(item).toString();
+                        Map<Object, Object> sourceData = (Map<Object, Object>) database.get(itemID);
+                        Map<String, DamageAttribute> attributeMap = new LinkedHashMap<>();
+                        for (DamageType type : DamageTypes.values()) {
+                            if (sourceData.containsKey(type.getRegistryName())) {
+                                Map<Object, Object> attributeData = (Map<Object, Object>) sourceData.get(type.getRegistryName());
+                                Float modifier;
+                                for (Object key : attributeData.keySet()) {
+                                    if (key.equals("modifier")) {
+                                        modifier = ((Double) attributeData.get(key)).floatValue();
+                                        attributeMap.put(type.getRegistryName(), new DamageAttribute(null, modifier));
+                                    }
+                                }
+                            }
+                        }
+                        databaseToReturn.put(itemID, attributeMap);
+                    }
+                    return new ArmorResistances(databaseToReturn);
+                }
+                if (clazz.equals(EntityDamages.class)) {
+                    Map<Object, Object> map = constructMapping(node);
+                    Map<String, Map<String, DamageAttribute>> databaseToReturn = new LinkedHashMap<>();
+                    Map<Object, Object> database = (Map<Object, Object>) map.get("entityDamageDatabase");
+                    for (EntityType<?> entity : EntityDamages.values()) {
+                        String entityID = Registry.ENTITY_TYPE.getId(entity).toString();
+                        Map<Object, Object> sourceData = (Map<Object, Object>) database.get(entityID);
+                        Map<String, DamageAttribute> attributeMap = new LinkedHashMap<>();
+                        for (DamageType type : DamageTypes.values()) {
+                            if (sourceData.containsKey(type.getRegistryName())) {
+                                Map<Object, Object> attributeData = (Map<Object, Object>) sourceData.get(type.getRegistryName());
+                                Float modifier;
+                                for (Object key : attributeData.keySet()) {
+                                    if (key.equals("modifier")) {
+                                        modifier = ((Double) attributeData.get(key)).floatValue();
+                                        attributeMap.put(type.getRegistryName(), new DamageAttribute(null, modifier));
+                                    }
+                                }
+                            }
+                        }
+                        databaseToReturn.put(entityID, attributeMap);
+                    }
+                    return new EntityDamages(databaseToReturn);
+                }
+                if (clazz.equals(EntityResistances.class)) {
+                    Map<Object, Object> map = constructMapping(node);
+                    Map<String, Map<String, DamageAttribute>> databaseToReturn = new LinkedHashMap<>();
+                    Map<Object, Object> database = (Map<Object, Object>) map.get("entityResistanceDatabase");
+                    for (EntityType<?> entity : EntityResistances.values()) {
+                        String entityID = Registry.ENTITY_TYPE.getId(entity).toString();
+                        Map<Object, Object> sourceData = (Map<Object, Object>) database.get(entityID);
+                        Map<String, DamageAttribute> attributeMap = new LinkedHashMap<>();
+                        for (DamageType type : DamageTypes.values()) {
+                            if (sourceData.containsKey(type.getRegistryName())) {
+                                Map<Object, Object> attributeData = (Map<Object, Object>) sourceData.get(type.getRegistryName());
+                                DamageCondition condition = null;
+                                Float modifier = null;
+                                for (Object key : attributeData.keySet()) {
+                                    if (key.equals("damageCondition")) {
+                                        condition = DamageCondition.valueOf((String) attributeData.get(key));
+                                    } else {
+                                        modifier = Objects.nonNull(attributeData.get(key)) ? ((Double) attributeData.get(key)).floatValue() : null;
+                                    }
+                                }
+                                attributeMap.put(type.getRegistryName(), new DamageAttribute(condition, modifier));
+                            } else {
+                                attributeMap.put(type.getRegistryName(), new DamageAttribute(DamageCondition.NEUTRAL, null));
+                            }
+                        }
+                        databaseToReturn.put(entityID, attributeMap);
+                    }
+                    return new EntityResistances(databaseToReturn);
+                }
+                if (clazz.equals(ToolDamages.class)) {
+                    Map<Object, Object> map = constructMapping(node);
+                    Map<String, Map<String, DamageAttribute>> databaseToReturn = new LinkedHashMap<>();
+                    Map<Object, Object> database = (Map<Object, Object>) map.get("toolDamageDatabase");
+                    for (Item item : ToolDamages.values()) {
+                        String itemID = Registry.ITEM.getId(item).toString();
+                        Map<Object, Object> sourceData = (Map<Object, Object>) database.get(itemID);
+                        Map<String, DamageAttribute> attributeMap = new LinkedHashMap<>();
+                        for (DamageType type : DamageTypes.values()) {
+                            if (sourceData.containsKey(type.getRegistryName())) {
+                                Map<Object, Object> attributeData = (Map<Object, Object>) sourceData.get(type.getRegistryName());
+                                Float modifier;
+                                for (Object key : attributeData.keySet()) {
+                                    if (key.equals("modifier")) {
+                                        modifier = ((Double) attributeData.get(key)).floatValue();
+                                        attributeMap.put(type.getRegistryName(), new DamageAttribute(null, modifier));
+                                    }
+                                }
+                            }
+                        }
+                        databaseToReturn.put(itemID, attributeMap);
+                    }
+                    return new ToolDamages(databaseToReturn);
+                }
+                return super.constructJavaBean2ndStep(node, object);
             }
         }
     }

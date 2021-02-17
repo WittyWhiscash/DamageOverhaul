@@ -17,6 +17,10 @@ public class DamageSources {
 
     private DamageSources() {}
 
+    public DamageSources(Map<String, Map<String, DamageAttribute>> database) {
+        damageSourceDatabase = database;
+    }
+
     public static DamageSources getInstance() {
         if (Objects.isNull(instance)) {
             instance = new DamageSources();

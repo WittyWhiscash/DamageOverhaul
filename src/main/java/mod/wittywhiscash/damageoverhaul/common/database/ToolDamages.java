@@ -18,6 +18,10 @@ public class ToolDamages {
 
     private ToolDamages() { }
 
+    public ToolDamages(Map<String, Map<String, DamageAttribute>> database) {
+        this.toolDamageDatabase = database;
+    }
+
     public Map<String, Map<String, DamageAttribute>> getToolDamageDatabase() { return toolDamageDatabase; }
     public void setToolDamageDatabase(Map<String, Map<String, DamageAttribute>> toolDamageDatabase) { this.toolDamageDatabase = toolDamageDatabase; }
 

@@ -113,7 +113,7 @@ public class DamageUtils {
                     case RESISTANT:
                         damageToModify *= 1 - resistanceSpread.get(type).getModifier();
                         if (target.world instanceof ServerWorld) {
-                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.IMMUNE_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
+                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.RESISTANT_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
                             DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
                         }
                         damageArray.replace(type, damageToModify);
@@ -121,7 +121,7 @@ public class DamageUtils {
                     case WEAK:
                         damageToModify *= 1 + resistanceSpread.get(type).getModifier();
                         if (target.world instanceof ServerWorld) {
-                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.IMMUNE_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
+                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.WEAK_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
                             DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
                         }
                         damageArray.replace(type, damageToModify);
@@ -129,7 +129,7 @@ public class DamageUtils {
                     case VULNERABLE:
                         damageToModify *= 2;
                         if (target.world instanceof ServerWorld) {
-                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.IMMUNE_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
+                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.VULNERABLE_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
                             DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
                         }
                         damageArray.replace(type, damageToModify);

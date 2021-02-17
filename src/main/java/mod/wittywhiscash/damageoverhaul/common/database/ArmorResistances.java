@@ -18,6 +18,10 @@ public class ArmorResistances {
 
     private ArmorResistances() {}
 
+    public ArmorResistances(Map<String, Map<String, DamageAttribute>> database) {
+        this.armorResistanceDatabase = database;
+    }
+
     public Map<String, Map<String, DamageAttribute>> getArmorResistanceDatabase() { return armorResistanceDatabase; }
     public void setArmorResistanceDatabase(Map<String, Map<String, DamageAttribute>> database) { this.armorResistanceDatabase = database; }
 
