@@ -2,8 +2,6 @@ package mod.wittywhiscash.damageoverhaul.common.damage;
 
 import mod.wittywhiscash.damageoverhaul.api.DamageCondition;
 
-import java.util.Optional;
-
 public class DamageAttribute {
 
 

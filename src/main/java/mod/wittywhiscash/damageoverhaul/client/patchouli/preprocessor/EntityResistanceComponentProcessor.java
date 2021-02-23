@@ -1,13 +1,11 @@
 package mod.wittywhiscash.damageoverhaul.client.patchouli.preprocessor;
 
-import com.sun.org.apache.xpath.internal.operations.Number;
 import mod.wittywhiscash.damageoverhaul.DamageOverhaul;
 import mod.wittywhiscash.damageoverhaul.api.DamageCondition;
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
 import mod.wittywhiscash.damageoverhaul.common.damage.DamageAttribute;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
 import org.apache.commons.lang3.StringUtils;
 import vazkii.patchouli.api.IComponentProcessor;
@@ -15,7 +13,10 @@ import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class EntityResistanceComponentProcessor implements IComponentProcessor {
 

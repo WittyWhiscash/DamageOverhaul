@@ -1,6 +1,5 @@
 package mod.wittywhiscash.damageoverhaul.common.database;
 
-import com.google.gson.annotations.Expose;
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
 import mod.wittywhiscash.damageoverhaul.common.damage.DamageAttribute;
 import net.minecraft.item.Item;

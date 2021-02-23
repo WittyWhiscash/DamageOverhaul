@@ -5,11 +5,8 @@ import mod.wittywhiscash.damageoverhaul.common.database.DamageTypes;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import static javax.swing.UIManager.put;
 
 public enum DefaultEnchantmentResistances {
 

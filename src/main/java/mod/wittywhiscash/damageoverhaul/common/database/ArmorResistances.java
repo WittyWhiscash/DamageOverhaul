@@ -3,7 +3,6 @@ package mod.wittywhiscash.damageoverhaul.common.database;
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
 import mod.wittywhiscash.damageoverhaul.common.damage.DamageAttribute;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.util.registry.Registry;
 
 import java.util.*;

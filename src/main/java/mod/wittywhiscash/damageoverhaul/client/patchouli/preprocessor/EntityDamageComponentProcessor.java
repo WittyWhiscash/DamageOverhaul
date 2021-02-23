@@ -1,7 +1,6 @@
 package mod.wittywhiscash.damageoverhaul.client.patchouli.preprocessor;
 
 import mod.wittywhiscash.damageoverhaul.DamageOverhaul;
-import mod.wittywhiscash.damageoverhaul.api.DamageCondition;
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
 import mod.wittywhiscash.damageoverhaul.common.damage.DamageAttribute;
 import net.minecraft.client.resource.language.I18n;

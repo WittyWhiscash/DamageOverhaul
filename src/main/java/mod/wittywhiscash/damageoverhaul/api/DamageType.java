@@ -1,13 +1,7 @@
 package mod.wittywhiscash.damageoverhaul.api;
 
-import com.google.gson.annotations.Expose;
-
-import java.util.List;
-import java.util.Map;
-
 public class DamageType {
 
-    @Expose
     private final String registryName;
 
     public static final String BLUDGEONING = "BLUDGEONING";

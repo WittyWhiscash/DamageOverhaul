@@ -1,7 +1,7 @@
 package mod.wittywhiscash.damageoverhaul.common;
 
 import com.google.common.collect.Sets;
-import com.google.gson.JsonElement;
+import com.google.common.util.concurrent.AtomicDouble;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
@@ -9,30 +9,22 @@ import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
 import mod.wittywhiscash.damageoverhaul.DamageOverhaul;
 import mod.wittywhiscash.damageoverhaul.api.DamageCondition;
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
-import mod.wittywhiscash.damageoverhaul.client.patchouli.PatchouliJSONGenerator;
 import mod.wittywhiscash.damageoverhaul.common.config.DamageOverhaulConfig;
 import mod.wittywhiscash.damageoverhaul.common.damage.DamageAttribute;
 import mod.wittywhiscash.damageoverhaul.common.database.*;
-import mod.wittywhiscash.damageoverhaul.common.database.defaults.DefaultEntityResistances;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.Level;
 import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.introspector.BeanAccess;
-import org.yaml.snakeyaml.introspector.Property;
-import org.yaml.snakeyaml.introspector.PropertyUtils;
 import org.yaml.snakeyaml.nodes.*;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
@@ -272,6 +264,9 @@ public class CommonLoader {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
+        /*
+        USED FOR DATAGEN, SHOULD NOT BE ACTIVE IN THE FINAL JAR.
+
         ArtificeResourcePack dataPack = new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, new Identifier(DamageOverhaul.MOD_ID, "guidebook"), resourcePackBuilder -> {
             resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/book.json"), new JsonResource(PatchouliJSONGenerator.generateRootBookJson()));
             resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/entities.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Entities", Items.ZOMBIE_SPAWN_EGG)));
@@ -309,29 +304,31 @@ public class CommonLoader {
             }
         });
         Artifice.registerData(new Identifier(DamageOverhaul.MOD_ID, "guidebook"), dataPack);
-
-        Set<EntityType<?>> entitiesToFilter = new HashSet<>();
-        for (EntityType<?> entityType : EntityResistances.values()) {
-            PatchouliAPI.get().setConfigFlag(new Identifier(DamageOverhaul.MOD_ID, Registry.ENTITY_TYPE.getId(entityType).getPath()).toString(), true);
-            entitiesToFilter.add(entityType);
-        }
-
-        for (EntityType<?> entityType : EntityDamages.values()) {
-            if (!entitiesToFilter.contains(entityType)) {
+        */
+        if (loader.isModLoaded("patchouli")) {
+            Set<EntityType<?>> entitiesToFilter = new HashSet<>();
+            for (EntityType<?> entityType : EntityResistances.values()) {
                 PatchouliAPI.get().setConfigFlag(new Identifier(DamageOverhaul.MOD_ID, Registry.ENTITY_TYPE.getId(entityType).getPath()).toString(), true);
+                entitiesToFilter.add(entityType);
             }
-        }
 
-        for (Item toolItem : ToolDamages.values()) {
-            PatchouliAPI.get().setConfigFlag(new Identifier(DamageOverhaul.MOD_ID, Registry.ITEM.getId(toolItem).getPath()).toString(), true);
-        }
+            for (EntityType<?> entityType : EntityDamages.values()) {
+                if (!entitiesToFilter.contains(entityType)) {
+                    PatchouliAPI.get().setConfigFlag(new Identifier(DamageOverhaul.MOD_ID, Registry.ENTITY_TYPE.getId(entityType).getPath()).toString(), true);
+                }
+            }
 
-        for (Item armorItem : ArmorResistances.values()) {
-            PatchouliAPI.get().setConfigFlag(new Identifier(DamageOverhaul.MOD_ID, Registry.ITEM.getId(armorItem).getPath()).toString(), true);
-        }
+            for (Item toolItem : ToolDamages.values()) {
+                PatchouliAPI.get().setConfigFlag(new Identifier(DamageOverhaul.MOD_ID, Registry.ITEM.getId(toolItem).getPath()).toString(), true);
+            }
 
-        for (Enchantment enchantment : EnchantmentResistances.values()) {
-            PatchouliAPI.get().setConfigFlag(new Identifier(DamageOverhaul.MOD_ID, Registry.ENCHANTMENT.getId(enchantment).getPath()).toString(), true);
+            for (Item armorItem : ArmorResistances.values()) {
+                PatchouliAPI.get().setConfigFlag(new Identifier(DamageOverhaul.MOD_ID, Registry.ITEM.getId(armorItem).getPath()).toString(), true);
+            }
+
+            for (Enchantment enchantment : EnchantmentResistances.values()) {
+                PatchouliAPI.get().setConfigFlag(new Identifier(DamageOverhaul.MOD_ID, Registry.ENCHANTMENT.getId(enchantment).getPath()).toString(), true);
+            }
         }
     }
 
@@ -355,13 +352,24 @@ public class CommonLoader {
                 if (!DamageOverhaul.ATTRIBUTE_DATABASE.getArmorResistanceDatabase().contains(armorItem)) {
                     Map<DamageType, DamageAttribute> newArmorMap = new HashMap<>();
                     for (Map.Entry<DamageType, DamageAttribute> entry : resistances.getResistanceSpread(armorItem).entrySet()) {
-                        newArmorMap.put(entry.getKey(), entry.getValue());
+                        if (DamageOverhaul.CONFIG.DAMAGE.getClampModsOnLoad() && entry.getValue().getModifier() > ((ArmorItem)armorItem).getProtection()) {
+                            float armorValue = Math.min(entry.getValue().getModifier(), ((ArmorItem)armorItem).getProtection());
+                            DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("[Armor Resistance Loader] Found armor piece %s with modifier for type %2s larger than normal, clamping to upper bound!", armorItem.getTranslationKey(), entry.getKey().getRegistryName()));
+                            newArmorMap.put(entry.getKey(), new DamageAttribute(armorValue));
+                        }
+                        else {
+                            newArmorMap.put(entry.getKey(), entry.getValue());
+                        }
                     }
                     DamageOverhaul.ATTRIBUTE_DATABASE.getArmorResistanceDatabase().registerArmorResistance(armorItem, newArmorMap);
                 }
                 else {
                     for (String damageType : resistances.getArmorResistanceDatabase().get(id).keySet()) {
                         float resistanceDef = resistances.getArmorResistanceDatabase().get(id).get(damageType).getModifier();
+                        if (DamageOverhaul.CONFIG.DAMAGE.getClampModsOnLoad() && resistanceDef > ((ArmorItem)armorItem).getProtection()) {
+                            resistanceDef = Math.min(resistanceDef, ((ArmorItem)armorItem).getProtection());
+                            DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("[Armor Resistance Loader] Found armor piece %s with modifier for type %2s larger than normal, clamping to upper bound!", armorItem.getTranslationKey(), damageType));
+                        }
                         boolean isKeyPresent = DamageOverhaul.ATTRIBUTE_DATABASE.getArmorResistanceDatabase().getResistanceSpread(armorItem).containsKey(DamageTypes.valueOf(damageType));
                         if (isKeyPresent && resistanceDef != DamageOverhaul.ATTRIBUTE_DATABASE.getArmorResistanceDatabase().getResistanceSpread(armorItem).get(DamageTypes.valueOf(damageType)).getModifier()) {
                             DamageOverhaul.ATTRIBUTE_DATABASE.getArmorResistanceDatabase().getResistanceSpread(armorItem).replace(DamageTypes.valueOf(damageType), new DamageAttribute(resistanceDef));
@@ -394,12 +402,22 @@ public class CommonLoader {
                 Set<DamageType> presentDamageTypes = new HashSet<>();
                 if (!DamageOverhaul.ATTRIBUTE_DATABASE.getEntityDamageDatabase().contains(entityType)) {
                     Map<DamageType, DamageAttribute> newDamageMap = new HashMap<>();
+                    AtomicDouble damageTotal = new AtomicDouble(0);
                     for (Map.Entry<DamageType, DamageAttribute> entry : damages.getDamageSpread(entityType).entrySet()) {
                         newDamageMap.put(entry.getKey(), entry.getValue());
+                        damageTotal.addAndGet(entry.getValue().getModifier());
+                    }
+                    if (DamageOverhaul.CONFIG.DAMAGE.getClampModsOnLoad() && damageTotal.floatValue() > 1F) {
+                        float difference = damageTotal.floatValue() - 1;
+                        Map.Entry<DamageType, DamageAttribute> largestEntry = Collections.max(newDamageMap.entrySet(), Comparator.comparing((Map.Entry<DamageType, DamageAttribute> e) -> e.getValue().getModifier()));
+                        float newValue = largestEntry.getValue().getModifier() - difference;
+                        newDamageMap.replace(largestEntry.getKey(), new DamageAttribute(newValue));
+                        DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("[Entity Damage Loader] Found entity %s with damage total larger than 100%%, clamping largest value %2s to upper bound!", entityType.getTranslationKey(), largestEntry.getKey().getRegistryName()));
                     }
                     DamageOverhaul.ATTRIBUTE_DATABASE.getEntityDamageDatabase().registerEntityDamageSpread(entityType, newDamageMap);
                 }
                 else {
+                    AtomicDouble damageTotal = new AtomicDouble(0);
                     for (String damageType : damages.getEntityDamageDatabase().get(id).keySet()) {
                         float damageDef = damages.getEntityDamageDatabase().get(id).get(damageType).getModifier();
                         boolean isKeyPresent = DamageOverhaul.ATTRIBUTE_DATABASE.getEntityDamageDatabase().getDamageSpread(entityType).containsKey(DamageTypes.valueOf(damageType));
@@ -409,6 +427,7 @@ public class CommonLoader {
                         else {
                             DamageOverhaul.ATTRIBUTE_DATABASE.getEntityDamageDatabase().getDamageSpread(entityType).put(DamageTypes.valueOf(damageType), new DamageAttribute(damageDef));
                         }
+                        damageTotal.addAndGet(damageDef);
                         presentDamageTypes.add(DamageTypes.valueOf(damageType));
                     }
                     damageTypes.removeAll(presentDamageTypes);
@@ -417,10 +436,17 @@ public class CommonLoader {
                             DamageOverhaul.ATTRIBUTE_DATABASE.getEntityDamageDatabase().getDamageSpread(entityType).remove(type);
                         }
                     }
+                    if (DamageOverhaul.CONFIG.DAMAGE.getClampModsOnLoad() && damageTotal.floatValue() > 1F) {
+                        float difference = damageTotal.floatValue() - 1;
+                        Map.Entry<DamageType, DamageAttribute> largestEntry = Collections.max(DamageOverhaul.ATTRIBUTE_DATABASE.getEntityDamageDatabase().getDamageSpread(entityType).entrySet(), Comparator.comparing((Map.Entry<DamageType, DamageAttribute> e) -> e.getValue().getModifier()));
+                        float newValue = largestEntry.getValue().getModifier() - difference;
+                        DamageOverhaul.ATTRIBUTE_DATABASE.getEntityDamageDatabase().getDamageSpread(entityType).replace(largestEntry.getKey(), new DamageAttribute(newValue));
+                        DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("[Entity Damage Loader] Found entity %s with damage total larger than 100%%, clamping largest value %2s to upper bound!", entityType.getTranslationKey(), largestEntry.getKey().getRegistryName()));
+                    }
                 }
             }
             else {
-                DamageOverhaul.log(Level.WARN, String.format("[Entity Damages Loader] Registry does not contain entity with id: %s, skipping!", identifier.toString()));
+                DamageOverhaul.log(Level.WARN, String.format("[Entity Damage Loader] Registry does not contain entity with id: %s, skipping!", identifier.toString()));
             }
         }
     }
@@ -435,7 +461,25 @@ public class CommonLoader {
                 if (!DamageOverhaul.ATTRIBUTE_DATABASE.getEntityResistanceDatabase().contains(entityType)) {
                     Map<DamageType, DamageAttribute> newResistanceMap = new HashMap<>();
                     for (Map.Entry<String, DamageAttribute> entry : resistances.getEntityResistanceDatabase().get(identifier.toString()).entrySet()) {
-                        newResistanceMap.put(DamageTypes.valueOf(entry.getKey()), entry.getValue());
+                        if (DamageOverhaul.CONFIG.DAMAGE.getClampModsOnLoad()) {
+                            switch (entry.getValue().getDamageCondition()) {
+                                case WEAK:
+                                case RESISTANT:
+                                    if (entry.getValue().getModifier() > 1F) {
+                                        float newValue = Math.min(entry.getValue().getModifier(), 1.0F);
+                                        newResistanceMap.put(DamageTypes.valueOf(entry.getKey()), new DamageAttribute(entry.getValue().getDamageCondition(), newValue));
+                                        DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("[Entity Resistance Loader] Found entity %s with type resistance of %2s with a condition of %3s and a value greater than 1, clamping to 1!", entityType.getTranslationKey(), entry.getKey(), entry.getValue().getDamageCondition().toString().toLowerCase()));
+                                    }
+                                    break;
+                                default:
+                                    newResistanceMap.put(DamageTypes.valueOf(entry.getKey()), new DamageAttribute(entry.getValue().getDamageCondition(), null));
+                                    DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("[Entity Resistance Loader] Found entity %s with type resistance of %2s with a condition of %3s and a value greater than 1, clamping to 1!", entityType.getTranslationKey(), entry.getKey(), entry.getValue().getDamageCondition().toString().toLowerCase()));
+                                    break;
+                            }
+                        }
+                        else {
+                            newResistanceMap.put(DamageTypes.valueOf(entry.getKey()), entry.getValue());
+                        }
                     }
                     DamageOverhaul.ATTRIBUTE_DATABASE.getEntityResistanceDatabase().registerEntityResistanceSpread(entityType, newResistanceMap);
                 }
@@ -443,6 +487,12 @@ public class CommonLoader {
                     for (String damageType : resistances.getEntityResistanceDatabase().get(id).keySet()) {
                         DamageCondition conditionDef = resistances.getEntityResistanceDatabase().get(id).get(damageType).getDamageCondition();
                         Float resistanceAmount = resistances.getEntityResistanceDatabase().get(id).get(damageType).getModifier();
+                        if (DamageOverhaul.CONFIG.DAMAGE.getClampModsOnLoad() && resistanceAmount != null) {
+                            if (resistanceAmount > 1.0F) {
+                                resistanceAmount = Math.min(resistanceAmount, 1.0F);
+                                DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("[Entity Resistance Loader] Found entity %s with type resistance of %2s with a condition of %3s and a value greater than 1, clamping to 1!", entityType.getTranslationKey(), damageType, conditionDef.toString().toLowerCase()));
+                            }
+                        }
                         boolean isKeyPresent = DamageOverhaul.ATTRIBUTE_DATABASE.getEntityResistanceDatabase().getResistanceSpread(entityType).containsKey(DamageTypes.valueOf(damageType));
                         if (isKeyPresent && conditionDef != DamageOverhaul.ATTRIBUTE_DATABASE.getEntityResistanceDatabase().getResistanceSpread(entityType).get(DamageTypes.valueOf(damageType)).getDamageCondition()) {
                             if (Objects.isNull(resistanceAmount) || !resistanceAmount.equals(DamageOverhaul.ATTRIBUTE_DATABASE.getEntityResistanceDatabase().getResistanceSpread(entityType).get(DamageTypes.valueOf(damageType)).getModifier())) {
@@ -466,7 +516,7 @@ public class CommonLoader {
                 }
             }
             else {
-                DamageOverhaul.log(Level.WARN, String.format("[Entity Resistances Loader] Registry does not contain entity with id: %s, skipping!", identifier.toString()));
+                DamageOverhaul.log(Level.WARN, String.format("[Entity Resistance Loader] Registry does not contain entity with id: %s, skipping!", identifier.toString()));
             }
         }
     }
@@ -479,22 +529,33 @@ public class CommonLoader {
                 Set<DamageType> damageTypes = Sets.newHashSet(DamageTypes.values());
                 Set<DamageType> presentDamageTypes = new HashSet<>();
                 if (!DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().contains(toolItem)) {
-                    Map<DamageType, DamageAttribute> newArmorMap = new HashMap<>();
+                    Map<DamageType, DamageAttribute> newDamageMap = new HashMap<>();
+                    AtomicDouble damageTotal = new AtomicDouble(0);
                     for (Map.Entry<DamageType, DamageAttribute> entry : damages.getDamageSpread(toolItem).entrySet()) {
-                        newArmorMap.put(entry.getKey(), entry.getValue());
+                        newDamageMap.put(entry.getKey(), entry.getValue());
+                        damageTotal.addAndGet(entry.getValue().getModifier());
                     }
-                    DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().registerToolDamageSpread(toolItem, newArmorMap);
+                    if (DamageOverhaul.CONFIG.DAMAGE.getClampModsOnLoad() && damageTotal.floatValue() > 1F) {
+                        float difference = damageTotal.floatValue() - 1;
+                        Map.Entry<DamageType, DamageAttribute> largestEntry = Collections.max(newDamageMap.entrySet(), Comparator.comparing((Map.Entry<DamageType, DamageAttribute> e) -> e.getValue().getModifier()));
+                        float newValue = largestEntry.getValue().getModifier() - difference;
+                        newDamageMap.replace(largestEntry.getKey(), new DamageAttribute(newValue));
+                        DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("[Tool Damage Loader] Found tool %s with damage total larger than 100%%, clamping largest value %2s to upper bound!", toolItem.getTranslationKey(), largestEntry.getKey().getRegistryName()));
+                    }
+                    DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().registerToolDamageSpread(toolItem, newDamageMap);
                 }
                 else {
+                    AtomicDouble damageTotal = new AtomicDouble(0);
                     for (String damageType : damages.getToolDamageDatabase().get(id).keySet()) {
-                        float resistanceDef = damages.getDamageSpread(toolItem).get(DamageTypes.valueOf(damageType)).getModifier();
+                        float damageDef = damages.getToolDamageDatabase().get(id).get(damageType).getModifier();
                         boolean isKeyPresent = DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().getDamageSpread(toolItem).containsKey(DamageTypes.valueOf(damageType));
-                        if (isKeyPresent && resistanceDef != DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().getDamageSpread(toolItem).get(DamageTypes.valueOf(damageType)).getModifier()) {
-                            DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().getDamageSpread(toolItem).replace(DamageTypes.valueOf(damageType), new DamageAttribute(resistanceDef));
+                        if (isKeyPresent && damageDef != DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().getDamageSpread(toolItem).get(DamageTypes.valueOf(damageType)).getModifier()) {
+                            DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().getDamageSpread(toolItem).replace(DamageTypes.valueOf(damageType), new DamageAttribute(damageDef));
                         }
                         else {
-                            DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().getDamageSpread(toolItem).put(DamageTypes.valueOf(damageType), new DamageAttribute(resistanceDef));
+                            DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().getDamageSpread(toolItem).put(DamageTypes.valueOf(damageType), new DamageAttribute(damageDef));
                         }
+                        damageTotal.addAndGet(damageDef);
                         presentDamageTypes.add(DamageTypes.valueOf(damageType));
                     }
                     damageTypes.removeAll(presentDamageTypes);
@@ -502,6 +563,13 @@ public class CommonLoader {
                         for (DamageType type : damageTypes) {
                             DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().getDamageSpread(toolItem).remove(type);
                         }
+                    }
+                    if (DamageOverhaul.CONFIG.DAMAGE.getClampModsOnLoad() && damageTotal.floatValue() > 1.0F) {
+                        float difference = damageTotal.floatValue() - 1;
+                        Map.Entry<DamageType, DamageAttribute> largestEntry = Collections.max(DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().getDamageSpread(toolItem).entrySet(), Comparator.comparing((Map.Entry<DamageType, DamageAttribute> e) -> e.getValue().getModifier()));
+                        float newValue = largestEntry.getValue().getModifier() - difference;
+                        DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().getDamageSpread(toolItem).replace(largestEntry.getKey(), new DamageAttribute(newValue));
+                        DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("[Tool Damage Loader] Found tool %s with damage total larger than 100%%, clamping largest value %2s to upper bound!", toolItem.getTranslationKey(), largestEntry.getKey().getRegistryName()));
                     }
                 }
             }
@@ -516,6 +584,7 @@ public class CommonLoader {
             if (sources.contains(source)) {
                 Set<DamageType> damageTypes = Sets.newHashSet(DamageTypes.values());
                 Set<DamageType> presentDamageTypes = new HashSet<>();
+                AtomicDouble damageTotal = new AtomicDouble(0);
                 for (String damageType : sources.getDamageSourceDatabase().get(source.getName()).keySet()) {
                     float damageDef = sources.getDamageSourceDatabase().get(source.getName()).get(damageType).getModifier();
                     boolean isKeyPresent = DamageOverhaul.ATTRIBUTE_DATABASE.getDamageSourceDatabase().getDamageSpread(source).containsKey(DamageTypes.valueOf(damageType));
@@ -525,6 +594,7 @@ public class CommonLoader {
                     else {
                         DamageOverhaul.ATTRIBUTE_DATABASE.getDamageSourceDatabase().getDamageSpread(source).put(DamageTypes.valueOf(damageType), new DamageAttribute(damageDef));
                     }
+                    damageTotal.addAndGet(damageDef);
                     presentDamageTypes.add(DamageTypes.valueOf(damageType));
                 }
                 damageTypes.removeAll(presentDamageTypes);
@@ -532,6 +602,13 @@ public class CommonLoader {
                     for (DamageType type : damageTypes) {
                         DamageOverhaul.ATTRIBUTE_DATABASE.getDamageSourceDatabase().getDamageSpread(source).remove(type);
                     }
+                }
+                if (DamageOverhaul.CONFIG.DAMAGE.getClampModsOnLoad() && damageTotal.floatValue() > 1.0F) {
+                    float difference = damageTotal.floatValue() - 1;
+                    Map.Entry<DamageType, DamageAttribute> largestEntry = Collections.max(DamageOverhaul.ATTRIBUTE_DATABASE.getDamageSourceDatabase().getDamageSpread(source).entrySet(), Comparator.comparing((Map.Entry<DamageType, DamageAttribute> e) -> e.getValue().getModifier()));
+                    float newValue = largestEntry.getValue().getModifier() - difference;
+                    DamageOverhaul.ATTRIBUTE_DATABASE.getDamageSourceDatabase().getDamageSpread(source).replace(largestEntry.getKey(), new DamageAttribute(newValue));
+                    DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("[Damage Source Loader] Found source %s with damage total larger than 100%%, clamping largest value %2s to upper bound!", source.getName(), largestEntry.getKey().getRegistryName()));
                 }
             }
         }

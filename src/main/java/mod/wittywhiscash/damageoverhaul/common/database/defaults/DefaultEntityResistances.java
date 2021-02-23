@@ -663,32 +663,32 @@ public enum DefaultEntityResistances {
         put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.NEUTRAL));
         put(DamageTypes.valueOf(DamageType.SLASHING), new DamageAttribute(DamageCondition.NEUTRAL));
         put(DamageTypes.valueOf(DamageType.PIERCING), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.MAGIC), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.MAGIC), new DamageAttribute(DamageCondition.RESISTANT, 0.5F));
         put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.WEAK, 0.5F));
     }}, new LinkedHashSet<EntityType<?>>(){{
         add(EntityType.POTION);
         add(EntityType.AREA_EFFECT_CLOUD);
     }}),
 
     WITHER(EntityType.WITHER, new LinkedHashMap<DamageType, DamageAttribute>(){{
-        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.WEAK, 0.25F));
         put(DamageTypes.valueOf(DamageType.SLASHING), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.PIERCING), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.MAGIC), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.PIERCING), new DamageAttribute(DamageCondition.RESISTANT, 0.25F));
+        put(DamageTypes.valueOf(DamageType.MAGIC), new DamageAttribute(DamageCondition.RESISTANT, 0.5F));
+        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.RESISTANT, 0.5F));
+        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.IMMUNE));
     }}, new LinkedHashSet<EntityType<?>>(){{
         add(EntityType.WITHER_SKULL);
     }}),
 
     WITHER_SKELETON(EntityType.WITHER_SKELETON, new LinkedHashMap<DamageType, DamageAttribute>(){{
-        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.SLASHING), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.PIERCING), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.VULNERABLE));
+        put(DamageTypes.valueOf(DamageType.SLASHING), new DamageAttribute(DamageCondition.RESISTANT, 0.25F));
+        put(DamageTypes.valueOf(DamageType.PIERCING), new DamageAttribute(DamageCondition.RESISTANT, 0.75F));
         put(DamageTypes.valueOf(DamageType.MAGIC), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.IMMUNE));
+        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.IMMUNE));
     }}, new LinkedHashSet<EntityType<?>>(){{
         add(EntityType.WITHER_SKELETON);
     }}),
@@ -705,54 +705,54 @@ public enum DefaultEntityResistances {
     }}),
 
     ZOGLIN(EntityType.ZOGLIN, new LinkedHashMap<DamageType, DamageAttribute>(){{
-        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.WEAK, 0.25F));
         put(DamageTypes.valueOf(DamageType.SLASHING), new DamageAttribute(DamageCondition.NEUTRAL));
         put(DamageTypes.valueOf(DamageType.PIERCING), new DamageAttribute(DamageCondition.NEUTRAL));
         put(DamageTypes.valueOf(DamageType.MAGIC), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.IMMUNE));
+        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.IMMUNE));
     }}, new LinkedHashSet<EntityType<?>>(){{
         add(EntityType.ZOGLIN);
     }}),
 
     ZOMBIE(EntityType.ZOMBIE, new LinkedHashMap<DamageType, DamageAttribute>(){{
-        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.RESISTANT, 0.25F));
         put(DamageTypes.valueOf(DamageType.SLASHING), new DamageAttribute(DamageCondition.NEUTRAL));
         put(DamageTypes.valueOf(DamageType.PIERCING), new DamageAttribute(DamageCondition.NEUTRAL));
         put(DamageTypes.valueOf(DamageType.MAGIC), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.VULNERABLE));
+        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.IMMUNE));
     }}, new LinkedHashSet<EntityType<?>>(){{
         add(EntityType.ZOMBIE);
     }}),
 
     ZOMBIE_HORSE(EntityType.ZOMBIE_HORSE, new LinkedHashMap<DamageType, DamageAttribute>(){{
-        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.RESISTANT, 0.25F));
         put(DamageTypes.valueOf(DamageType.SLASHING), new DamageAttribute(DamageCondition.NEUTRAL));
         put(DamageTypes.valueOf(DamageType.PIERCING), new DamageAttribute(DamageCondition.NEUTRAL));
         put(DamageTypes.valueOf(DamageType.MAGIC), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.VULNERABLE));
+        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.IMMUNE));
     }}, new LinkedHashSet<>()),
 
     ZOMBIE_VILLAGER(EntityType.ZOMBIE_VILLAGER, new LinkedHashMap<DamageType, DamageAttribute>(){{
-        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.RESISTANT, 0.25F));
         put(DamageTypes.valueOf(DamageType.SLASHING), new DamageAttribute(DamageCondition.NEUTRAL));
         put(DamageTypes.valueOf(DamageType.PIERCING), new DamageAttribute(DamageCondition.NEUTRAL));
         put(DamageTypes.valueOf(DamageType.MAGIC), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.VULNERABLE));
+        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.IMMUNE));
     }}, new LinkedHashSet<EntityType<?>>(){{
         add(EntityType.ZOMBIE_VILLAGER);
     }}),
 
     ZOMBIFIED_PIGLIN(EntityType.ZOMBIFIED_PIGLIN, new LinkedHashMap<DamageType, DamageAttribute>(){{
-        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.BLUDGEONING), new DamageAttribute(DamageCondition.RESISTANT, 0.25F));
         put(DamageTypes.valueOf(DamageType.SLASHING), new DamageAttribute(DamageCondition.NEUTRAL));
         put(DamageTypes.valueOf(DamageType.PIERCING), new DamageAttribute(DamageCondition.NEUTRAL));
         put(DamageTypes.valueOf(DamageType.MAGIC), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.NEUTRAL));
-        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.NEUTRAL));
+        put(DamageTypes.valueOf(DamageType.FIRE), new DamageAttribute(DamageCondition.IMMUNE));
+        put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(DamageCondition.IMMUNE));
     }}, new LinkedHashSet<EntityType<?>>(){{
         add(EntityType.ZOMBIFIED_PIGLIN);
     }});

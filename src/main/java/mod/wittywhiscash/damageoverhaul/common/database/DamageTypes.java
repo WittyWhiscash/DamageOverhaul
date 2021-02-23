@@ -1,6 +1,5 @@
 package mod.wittywhiscash.damageoverhaul.common.database;
 
-import com.google.gson.annotations.Expose;
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
 
 import java.util.*;

@@ -2,12 +2,9 @@ package mod.wittywhiscash.damageoverhaul.common.database.defaults;
 
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
 import mod.wittywhiscash.damageoverhaul.common.damage.DamageAttribute;
-import mod.wittywhiscash.damageoverhaul.common.database.DamageSources;
 import mod.wittywhiscash.damageoverhaul.common.database.DamageTypes;
 import net.minecraft.entity.damage.DamageSource;
-import org.lwjgl.system.CallbackI;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

@@ -61,7 +61,7 @@ public abstract class ItemStackMixin {
             if (Screen.hasShiftDown()) {
                 Map<DamageType, DamageAttribute> damageSpread = DamageOverhaul.ATTRIBUTE_DATABASE.getToolDamageDatabase().getDamageSpread(getItem());
                 for (Map.Entry<DamageType, DamageAttribute> entry : damageSpread.entrySet()) {
-                    additionalText.add(new TranslatableText("tooltip.damageoverhaul.damage." + entry.getKey().getRegistryName(), entry.getValue().getModifier() * 100).formatted(Formatting.BLUE));
+                    additionalText.add(new TranslatableText("tooltip.damageoverhaul.damage", entry.getValue().getModifier() * 100, StringUtils.capitalize(entry.getKey().getRegistryName())).formatted(Formatting.BLUE));
                 }
             }
             else {
@@ -74,7 +74,7 @@ public abstract class ItemStackMixin {
                 if (Screen.hasShiftDown()) {
                     Map<DamageType, DamageAttribute> damageSpread = DamageOverhaul.ATTRIBUTE_DATABASE.getEntityDamageDatabase().getDamageSpread(type);
                     for (Map.Entry<DamageType, DamageAttribute> entry : damageSpread.entrySet()) {
-                        additionalText.add(new TranslatableText("tooltip.damageoverhaul.damage." + entry.getKey().getRegistryName(), DamageOverhaul.DF.format(entry.getValue().getModifier() * 100)).formatted(Formatting.BLUE));
+                        additionalText.add(new TranslatableText("tooltip.damageoverhaul.damage", DamageOverhaul.DF.format(entry.getValue().getModifier() * 100), StringUtils.capitalize(entry.getKey().getRegistryName())).formatted(Formatting.BLUE));
                     }
                 } else {
                     additionalText.add(new TranslatableText("tooltip.damageoverhaul.damage.holdShift").formatted(Formatting.YELLOW));
@@ -86,10 +86,10 @@ public abstract class ItemStackMixin {
                     Set<DamageCondition> conditionsWModifiers = Sets.newHashSet(DamageCondition.RESISTANT, DamageCondition.WEAK);
                     for (Map.Entry<DamageType, DamageAttribute> entry : resistanceSpread.entrySet()) {
                         if (conditionsWModifiers.contains(entry.getValue().getDamageCondition())) {
-                            additionalText.add(new TranslatableText("tooltip.damageoverhaul.mobResistance." + entry.getValue().getDamageCondition().name().toLowerCase(), entry.getKey().getRegistryName(), DamageOverhaul.DF.format(entry.getValue().getModifier() * 100)).formatted(Formatting.BLUE));
+                            additionalText.add(new TranslatableText("tooltip.damageoverhaul.mobResistance.value", StringUtils.capitalize(entry.getKey().getRegistryName()), entry.getValue().getDamageCondition().name(), DamageOverhaul.DF.format(entry.getValue().getDamageCondition() == DamageCondition.RESISTANT ? (1 - entry.getValue().getModifier()) * 100 : (1 + entry.getValue().getModifier()) * 100)).formatted(Formatting.BLUE));
                         }
                         else {
-                            additionalText.add(new TranslatableText("tooltip.damageoverhaul.mobResistance." + entry.getValue().getDamageCondition().name().toLowerCase(), entry.getKey().getRegistryName()).formatted(Formatting.BLUE));
+                            additionalText.add(new TranslatableText("tooltip.damageoverhaul.mobResistance", StringUtils.capitalize(entry.getKey().getRegistryName()), entry.getValue().getDamageCondition().name()).formatted(Formatting.BLUE));
                         }
                     }
                 } else {

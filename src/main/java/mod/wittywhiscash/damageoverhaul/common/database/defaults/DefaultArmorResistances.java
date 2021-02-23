@@ -5,10 +5,7 @@ import mod.wittywhiscash.damageoverhaul.common.damage.DamageAttribute;
 import mod.wittywhiscash.damageoverhaul.common.database.DamageTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import org.lwjgl.system.CallbackI;
 
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
