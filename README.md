@@ -1,6 +1,8 @@
 # Damage Overhaul
 
-Damage Overhaul is a mod for Minecraft 1.16.2 and higher aiming to add damage typing and change the armor and damage calculation formula. Simply put though, it recalculates armor based on the amount of damage, and how spread out the damage is amongst typing. A larger damage hit will render much more profoundly on an entity than many small typings, and armor will feel less effective on bigger hits. This all feeds into an exponential decay calculation to make armor less effective the more you have of it against a bigger attack. The aim of this is to make it feel like larger attacks feel more profound, while with armor, you can shrug off smaller hits.
+Damage Overhaul is a mod for Minecraft 1.16.2 and higher aiming to add damage typing and change the armor and damage calculation formula. Simply put though, it recalculates armor based on the amount of damage, and how spread out the damage is amongst typing. A larger damage hit will render much more profoundly on an entity than many small typings, and armor will feel less effective on bigger hits. This all feeds into an exponential decay calculation to make armor less effective the more you have of it against a bigger attack. The aim of this is to make it feel like larger attacks feel more profound, while with armor, you can shrug off smaller hits. This mod is extremely customizable, from being able to modify variables in the calculations, to being able to define your own damage types, to being able to modify what damage a tool deals. This all occurs through YAML files in the configuration directory.
+
+***
 
 This mod is Fabric only. I am not considering a Forge port at this time. If you want to port it, it's licensed under GPL-3, so have a go as long as you credit me and license it under GPL as well.
 
