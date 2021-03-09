@@ -34,40 +34,40 @@ public abstract class ArmorItemMixin extends Item implements Wearable {
     @Inject(method = "<init>", at = @At(value = "RETURN"))
     private void modifyArmorToughness(ArmorMaterial material, EquipmentSlot slot, Settings settings, CallbackInfo ci) {
         UUID uUID = MODIFIERS[slot.getEntitySlotId()];
+        if (DamageOverhaul.CONFIG.ARMOR_EFFECTIVENESS.getModifyArmorToughness())
+            if (material.equals(ArmorMaterials.CHAIN) || material.equals(ArmorMaterials.IRON)) {
+                if (slot.equals(EquipmentSlot.CHEST) || slot.equals(EquipmentSlot.LEGS)) {
+                    ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
 
-        if (material.equals(ArmorMaterials.CHAIN) || material.equals(ArmorMaterials.IRON)) {
-            if (slot.equals(EquipmentSlot.CHEST) || slot.equals(EquipmentSlot.LEGS)) {
-                ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
+                    attributeModifiers.forEach((attribute, modifiers) -> {
+                        if (!attribute.equals(EntityAttributes.GENERIC_ARMOR_TOUGHNESS)) {
+                            builder.put(attribute, modifiers);
+                        }
+                    });
 
-                attributeModifiers.forEach((attribute, modifiers) -> {
-                    if (!attribute.equals(EntityAttributes.GENERIC_ARMOR_TOUGHNESS)) {
-                        builder.put(attribute, modifiers);
-                    }
-                });
-
-                builder.put(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, new EntityAttributeModifier(uUID, "Armor toughness", 1.0D, EntityAttributeModifier.Operation.ADDITION));
-                DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("Added 1 armor toughness to material: %s slot: %2s", material.getName(), slot.getName()));
-                attributeModifiers = builder.build();
-            }
-        }
-        if (material.equals(ArmorMaterials.DIAMOND) || material.equals(ArmorMaterials.NETHERITE)) {
-            if (slot.equals(EquipmentSlot.HEAD) || slot.equals(EquipmentSlot.FEET)) {
-                ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-
-                attributeModifiers.forEach((attribute, modifiers) -> {
-                    if (!attribute.equals(EntityAttributes.GENERIC_ARMOR_TOUGHNESS)) {
-                        builder.put(attribute, modifiers);
-                    }
-                });
-                if (material.equals(ArmorMaterials.DIAMOND)) {
                     builder.put(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, new EntityAttributeModifier(uUID, "Armor toughness", 1.0D, EntityAttributeModifier.Operation.ADDITION));
+                    DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("Added 1 armor toughness to material: %s slot: %2s", material.getName(), slot.getName()));
+                    attributeModifiers = builder.build();
                 }
-                else {
-                    builder.put(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, new EntityAttributeModifier(uUID, "Armor toughness", 2.0D, EntityAttributeModifier.Operation.ADDITION));
-                }
-                DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("Removed 1 armor toughness from material: %s slot: %2s", material.getName(), slot.getName()));
-                attributeModifiers = builder.build();
             }
-        }
+            if (material.equals(ArmorMaterials.DIAMOND) || material.equals(ArmorMaterials.NETHERITE)) {
+                if (slot.equals(EquipmentSlot.HEAD) || slot.equals(EquipmentSlot.FEET)) {
+                    ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
+
+                    attributeModifiers.forEach((attribute, modifiers) -> {
+                        if (!attribute.equals(EntityAttributes.GENERIC_ARMOR_TOUGHNESS)) {
+                            builder.put(attribute, modifiers);
+                        }
+                    });
+                    if (material.equals(ArmorMaterials.DIAMOND)) {
+                        builder.put(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, new EntityAttributeModifier(uUID, "Armor toughness", 1.0D, EntityAttributeModifier.Operation.ADDITION));
+                    }
+                    else {
+                        builder.put(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, new EntityAttributeModifier(uUID, "Armor toughness", 2.0D, EntityAttributeModifier.Operation.ADDITION));
+                    }
+                    DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getLoaderDebug(), String.format("Removed 1 armor toughness from material: %s slot: %2s", material.getName(), slot.getName()));
+                    attributeModifiers = builder.build();
+                }
+            }
     }
 }

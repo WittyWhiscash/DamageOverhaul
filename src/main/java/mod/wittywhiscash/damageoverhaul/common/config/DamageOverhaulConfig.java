@@ -60,17 +60,21 @@ public class DamageOverhaulConfig {
         // How much toughness can lower the reduction (at most 1 / e). Default: 2.0
         private float toughnessEffectivenessReduction = 2.0F;
 
+        private boolean modifyArmorToughness = true;
+
         public float getDamageMagnitude() { return damageMagnitude; }
         public float getDamageNumDecreaseMagnitude() { return damageNumDecreaseMagnitude; }
         public float getDamageTypeMultiplier() { return damageTypeMultiplier; }
         public float getToughnessEffectiveness() { return toughnessEffectiveness; }
         public float getToughnessEffectivenessReduction() { return toughnessEffectivenessReduction; }
+        public boolean getModifyArmorToughness() { return modifyArmorToughness; }
 
         public void setDamageMagnitude(float damageMagnitude) { this.damageMagnitude = damageMagnitude; }
         public void setDamageNumDecreaseMagnitude(float damageNumDecreaseMagnitude) { this.damageNumDecreaseMagnitude = damageNumDecreaseMagnitude; }
         public void setDamageTypeMultiplier(float damageTypeMultiplier) { this.damageTypeMultiplier = damageTypeMultiplier; }
         public void setToughnessEffectiveness(float toughnessEffectiveness) { this.toughnessEffectiveness = toughnessEffectiveness; }
         public void setToughnessEffectivenessReduction(float toughnessEffectivenessReduction) { this.toughnessEffectivenessReduction = toughnessEffectivenessReduction; }
+        public void setModifyArmorToughness(boolean modifyArmorToughness) { this.modifyArmorToughness = modifyArmorToughness; }
     }
 
     public static class DamageEffectivenessModule {

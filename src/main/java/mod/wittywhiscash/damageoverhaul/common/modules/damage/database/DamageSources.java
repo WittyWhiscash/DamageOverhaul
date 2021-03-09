@@ -1,7 +1,7 @@
-package mod.wittywhiscash.damageoverhaul.common.database;
+package mod.wittywhiscash.damageoverhaul.common.modules.damage.database;
 
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
-import mod.wittywhiscash.damageoverhaul.common.damage.DamageAttribute;
+import mod.wittywhiscash.damageoverhaul.common.modules.damage.util.DamageAttribute;
 import net.minecraft.entity.damage.DamageSource;
 
 import java.util.*;

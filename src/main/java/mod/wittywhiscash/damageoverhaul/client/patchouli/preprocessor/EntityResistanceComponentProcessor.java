@@ -3,7 +3,7 @@ package mod.wittywhiscash.damageoverhaul.client.patchouli.preprocessor;
 import mod.wittywhiscash.damageoverhaul.DamageOverhaul;
 import mod.wittywhiscash.damageoverhaul.api.DamageCondition;
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
-import mod.wittywhiscash.damageoverhaul.common.damage.DamageAttribute;
+import mod.wittywhiscash.damageoverhaul.common.modules.damage.util.DamageAttribute;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;

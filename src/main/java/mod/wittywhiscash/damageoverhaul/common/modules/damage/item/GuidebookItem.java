@@ -1,4 +1,4 @@
-package mod.wittywhiscash.damageoverhaul.common.item;
+package mod.wittywhiscash.damageoverhaul.common.modules.damage.item;
 
 import mod.wittywhiscash.damageoverhaul.DamageOverhaul;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,7 +9,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import vazkii.patchouli.api.PatchouliAPI;
 

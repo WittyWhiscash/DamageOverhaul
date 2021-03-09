@@ -1,4 +1,4 @@
-package mod.wittywhiscash.damageoverhaul.common.database.defaults;
+package mod.wittywhiscash.damageoverhaul.common.modules.damage.database.defaults;
 
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
 

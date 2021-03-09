@@ -1,6 +1,6 @@
-package mod.wittywhiscash.damageoverhaul.common.database;
+package mod.wittywhiscash.damageoverhaul.common.modules.damage.database;
 
-import mod.wittywhiscash.damageoverhaul.common.database.defaults.*;
+import mod.wittywhiscash.damageoverhaul.common.modules.damage.database.defaults.*;
 
 import java.util.Objects;
 

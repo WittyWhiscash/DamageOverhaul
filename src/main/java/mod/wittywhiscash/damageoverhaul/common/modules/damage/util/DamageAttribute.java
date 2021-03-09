@@ -1,4 +1,4 @@
-package mod.wittywhiscash.damageoverhaul.common.damage;
+package mod.wittywhiscash.damageoverhaul.common.modules.damage.util;
 
 import mod.wittywhiscash.damageoverhaul.api.DamageCondition;
 

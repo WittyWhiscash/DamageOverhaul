@@ -1,9 +1,11 @@
-package mod.wittywhiscash.damageoverhaul.common.damage;
+package mod.wittywhiscash.damageoverhaul.common.modules.damage.util;
 
 import com.google.common.util.concurrent.AtomicDouble;
 import mod.wittywhiscash.damageoverhaul.DamageOverhaul;
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
-import mod.wittywhiscash.damageoverhaul.common.database.DamageTypes;
+import mod.wittywhiscash.damageoverhaul.common.modules.damage.database.DamageTypes;
+import mod.wittywhiscash.damageoverhaul.common.modules.damage.database.EnchantmentResistances;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -99,33 +101,41 @@ public class DamageUtils {
                 switch (resistanceSpread.get(type).getDamageCondition()) {
                     case IMMUNE:
                         damageToModify = 0;
-                        if (target.world instanceof ServerWorld) {
-                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.IMMUNE_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
-                            DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
+                        if (FabricLoader.getInstance().isModLoaded("fabric")) {
+                            if (target.world instanceof ServerWorld) {
+                                ((ServerWorld) target.world).spawnParticles(DamageOverhaul.IMMUNE_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
+                                DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
+                            }
                         }
                         damageArray.replace(type, damageToModify);
                         break;
                     case RESISTANT:
                         damageToModify *= 1 - resistanceSpread.get(type).getModifier();
-                        if (target.world instanceof ServerWorld) {
-                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.RESISTANT_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
-                            DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
+                        if (FabricLoader.getInstance().isModLoaded("fabric")) {
+                            if (target.world instanceof ServerWorld) {
+                                ((ServerWorld) target.world).spawnParticles(DamageOverhaul.RESISTANT_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
+                                DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
+                            }
                         }
                         damageArray.replace(type, damageToModify);
                         break;
                     case WEAK:
                         damageToModify *= 1 + resistanceSpread.get(type).getModifier();
-                        if (target.world instanceof ServerWorld) {
-                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.WEAK_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
-                            DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
+                        if (FabricLoader.getInstance().isModLoaded("fabric")) {
+                            if (target.world instanceof ServerWorld) {
+                                ((ServerWorld) target.world).spawnParticles(DamageOverhaul.WEAK_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
+                                DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
+                            }
                         }
                         damageArray.replace(type, damageToModify);
                         break;
                     case VULNERABLE:
                         damageToModify *= 2;
-                        if (target.world instanceof ServerWorld) {
-                            ((ServerWorld) target.world).spawnParticles(DamageOverhaul.VULNERABLE_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
-                            DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
+                        if (FabricLoader.getInstance().isModLoaded("fabric")) {
+                            if (target.world instanceof ServerWorld) {
+                                ((ServerWorld) target.world).spawnParticles(DamageOverhaul.VULNERABLE_PARTICLE, target.getX(), target.getBodyY(target.getScaleFactor()), target.getZ(), target.getRandom().nextInt(8), 0.1D, 0.0D, 0.1D, 0.2D);
+                                DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), "Spawned particles!");
+                            }
                         }
                         damageArray.replace(type, damageToModify);
                         break;
@@ -148,7 +158,8 @@ public class DamageUtils {
             DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), String.format("Damage before enchantment/status calc: %f", totalDamage));
             Map<DamageType, Integer> enchantmentResistances = new HashMap<>();
             target.getArmorItems().forEach(armorItem -> {
-                for (Enchantment enchantment : DamageOverhaul.ATTRIBUTE_DATABASE.getEnchantmentResistanceDatabase().values()) {
+                DamageOverhaul.ATTRIBUTE_DATABASE.getEnchantmentResistanceDatabase();
+                for (Enchantment enchantment : EnchantmentResistances.values()) {
                     if (armorItem.hasEnchantments() && EnchantmentHelper.get(armorItem).containsKey(enchantment)) {
                         for (DamageType type : DamageOverhaul.ATTRIBUTE_DATABASE.getEnchantmentResistanceDatabase().getResistanceSpread(enchantment).keySet()) {
                             if (enchantmentResistances.containsKey(type)) {

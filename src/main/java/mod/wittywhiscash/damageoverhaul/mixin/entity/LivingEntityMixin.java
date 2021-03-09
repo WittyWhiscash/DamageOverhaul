@@ -2,7 +2,7 @@ package mod.wittywhiscash.damageoverhaul.mixin.entity;
 
 import mod.wittywhiscash.damageoverhaul.DamageOverhaul;
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
-import mod.wittywhiscash.damageoverhaul.common.damage.*;
+import mod.wittywhiscash.damageoverhaul.common.modules.damage.util.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

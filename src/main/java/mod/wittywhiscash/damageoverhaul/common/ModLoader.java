@@ -2,6 +2,7 @@ package mod.wittywhiscash.damageoverhaul.common;
 
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AtomicDouble;
+import com.google.gson.JsonElement;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.resource.JsonResource;
@@ -9,15 +10,18 @@ import com.swordglowsblue.artifice.impl.ArtificeResourcePackImpl;
 import mod.wittywhiscash.damageoverhaul.DamageOverhaul;
 import mod.wittywhiscash.damageoverhaul.api.DamageCondition;
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
+import mod.wittywhiscash.damageoverhaul.client.patchouli.PatchouliJSONGenerator;
 import mod.wittywhiscash.damageoverhaul.common.config.DamageOverhaulConfig;
-import mod.wittywhiscash.damageoverhaul.common.damage.DamageAttribute;
-import mod.wittywhiscash.damageoverhaul.common.database.*;
+import mod.wittywhiscash.damageoverhaul.common.modules.damage.database.defaults.DefaultEntityResistances;
+import mod.wittywhiscash.damageoverhaul.common.modules.damage.util.DamageAttribute;
+import mod.wittywhiscash.damageoverhaul.common.modules.damage.database.*;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -36,14 +40,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class CommonLoader {
+public class ModLoader {
 
     public static void init(FabricLoader loader) {
 
+        // Initialize the database with default values
         AttributeDatabase database = DamageOverhaul.ATTRIBUTE_DATABASE;
         database.init();
+
         File configDir = loader.getConfigDir().toFile();
         Path configPath = Paths.get(configDir.toString(), DamageOverhaul.MOD_ID);
+
+        // Set up the YAML dumper and reader
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         options.setPrettyFlow(true);
@@ -53,9 +61,19 @@ public class CommonLoader {
         representer.addClassTag(DamageAttribute.class, Tag.MAP);
         Yaml dumperYaml = new Yaml(representer, options);
         Yaml readerYaml = new Yaml(new DamageAttributeConstructor());
+
         Writer writer;
         Reader reader;
 
+        // Register particles
+        if (loader.isModLoaded("fabric")) {
+            Registry.register(Registry.PARTICLE_TYPE, new Identifier(DamageOverhaul.MOD_ID, "vulnerable"), DamageOverhaul.VULNERABLE_PARTICLE);
+            Registry.register(Registry.PARTICLE_TYPE, new Identifier(DamageOverhaul.MOD_ID, "weak"), DamageOverhaul.WEAK_PARTICLE);
+            Registry.register(Registry.PARTICLE_TYPE, new Identifier(DamageOverhaul.MOD_ID, "resistant"), DamageOverhaul.RESISTANT_PARTICLE);
+            Registry.register(Registry.PARTICLE_TYPE, new Identifier(DamageOverhaul.MOD_ID, "immune"), DamageOverhaul.IMMUNE_PARTICLE);
+        }
+
+        // Create the general config
         Path generalConfigYaml = Paths.get(configDir.toString(), "damageOverhaul.yaml");
         if (!Files.exists(generalConfigYaml)) {
             try {
@@ -68,6 +86,7 @@ public class CommonLoader {
             }
         }
 
+        // Read in any changes to the config.
         try {
             reader = Files.newBufferedReader(generalConfigYaml);
             DamageOverhaulConfig config = readerYaml.loadAs(reader, DamageOverhaulConfig.class);
@@ -78,6 +97,7 @@ public class CommonLoader {
 
         tryCreateDirectory(configPath);
 
+        // Create the damage types file from the default registry, if it doesn't exist yet.
         Path vanillaDamageTypesYaml = Paths.get(configPath.toString(), "damageTypes_vanilla.yaml");
         if (!Files.exists(vanillaDamageTypesYaml)) {
             try {
@@ -90,6 +110,7 @@ public class CommonLoader {
             }
         }
 
+        // Read in the damage types file before anything else, so there's no errors.
         try {
             reader = Files.newBufferedReader(vanillaDamageTypesYaml);
             parseDamageTypesYaml(readerYaml.loadAs(reader, DamageTypes.class));
@@ -97,6 +118,7 @@ public class CommonLoader {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
+        // Create the damage sources file from the default registry, if it doesn't exist yet.
         Path vanillaDamageSourcesYaml = Paths.get(configPath.toString(), "damageSources_vanilla.yaml");
         if (!Files.exists(vanillaDamageSourcesYaml)) {
             try {
@@ -109,6 +131,7 @@ public class CommonLoader {
             }
         }
 
+        // Create the armor resistances file from the default registry, if it doesn't exist yet.
         Path vanillaArmorResistancesYaml = Paths.get(configPath.toString(), "armorResistances_vanilla.yaml");
         if (!Files.exists(vanillaArmorResistancesYaml)) {
             try {
@@ -121,6 +144,7 @@ public class CommonLoader {
             }
         }
 
+        // Create the entity resistances file from the default registry, if it doesn't exist yet.
         Path vanillaEntityResistancesYaml = Paths.get(configPath.toString(), "entityResistances_vanilla.yaml");
         if (!Files.exists(vanillaEntityResistancesYaml)) {
             try {
@@ -133,6 +157,7 @@ public class CommonLoader {
             }
         }
 
+        // Create the entity damages file from the default registry, if it doesn't exist yet.
         Path vanillaEntityDamagesYaml = Paths.get(configPath.toString(), "entityDamages_vanilla.yaml");
         if (!Files.exists(vanillaEntityDamagesYaml)) {
             try {
@@ -145,6 +170,7 @@ public class CommonLoader {
             }
         }
 
+        // Create the tool damages file from the default registry, if it doesn't exist yet.
         Path vanillaToolDamagesYaml = Paths.get(configPath.toString(), "toolDamages_vanilla.yaml");
         if (!Files.exists(vanillaToolDamagesYaml)) {
             try {
@@ -157,6 +183,7 @@ public class CommonLoader {
             }
         }
 
+        // Create the enchantment resistances file from the default registry, if it doesn't exist yet.
         Path vanillaEnchantmentResistancesYaml = Paths.get(configPath.toString(), "enchantmentResistances_vanilla.yaml");
         if (!Files.exists(vanillaEnchantmentResistancesYaml)) {
             try {
@@ -169,6 +196,7 @@ public class CommonLoader {
             }
         }
 
+        // Define and generate the folder structure for custom files.
         Path customYamlPath = Paths.get(configPath.toString(), "custom");
 
         tryCreateDirectory(customYamlPath);
@@ -189,6 +217,7 @@ public class CommonLoader {
         tryCreateDirectory(customEntityResistancesYamlPath);
         tryCreateDirectory(customEntityDamageYamlPath);
 
+        // Read in the damage source file and make changes to the database based on the file.
         try {
             reader = Files.newBufferedReader(vanillaDamageSourcesYaml);
             parseDamageSourcesYaml(readerYaml.loadAs(reader, DamageSources.class));
@@ -196,6 +225,7 @@ public class CommonLoader {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
+        // Read in the armor resistances file and make changes to the database based on the file.
         try {
             reader = Files.newBufferedReader(vanillaArmorResistancesYaml);
             parseArmorResistancesYaml(readerYaml.loadAs(reader, ArmorResistances.class));
@@ -203,6 +233,7 @@ public class CommonLoader {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
+        // Read in the entity damages file and make changes to the database based on the file.
         try {
             reader = Files.newBufferedReader(vanillaEntityDamagesYaml);
             parseEntityDamagesYaml(readerYaml.loadAs(reader, EntityDamages.class));
@@ -210,6 +241,7 @@ public class CommonLoader {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
+        // Read in the entity resistances file and make changes to the database based on the file.
         try {
             reader = Files.newBufferedReader(vanillaEntityResistancesYaml);
             parseEntityResistancesYaml(readerYaml.loadAs(reader, EntityResistances.class));
@@ -217,6 +249,7 @@ public class CommonLoader {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
+        // Read in the tool damages file and make changes to the database based on the file.
         try {
             reader = Files.newBufferedReader(vanillaToolDamagesYaml);
             parseToolDamagesYaml(readerYaml.loadAs(reader, ToolDamages.class));
@@ -224,6 +257,7 @@ public class CommonLoader {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
+        // Get all the custom files in the armor directory and add to the database the items defined in the files.
         try {
             File[] fileList = customArmorResistancesYamlPath.toFile().listFiles();
             for (File file : fileList) {
@@ -234,6 +268,7 @@ public class CommonLoader {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
+        // Get all the custom files in the entity resistances directory and add to the database the items defined in the files.
         try {
             File[] fileList = customEntityResistancesYamlPath.toFile().listFiles();
             for (File file : fileList) {
@@ -244,6 +279,7 @@ public class CommonLoader {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
+        // Get all the custom files in the tool directory and add to the database the items defined in the files.
         try {
             File[] fileList = customToolDamagesYamlPath.toFile().listFiles();
             for (File file : fileList) {
@@ -254,6 +290,7 @@ public class CommonLoader {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
+        // Get all the custom files in the entity damage directory and add to the database the items defined in the files.
         try {
             File[] fileList = customEntityDamageYamlPath.toFile().listFiles();
             for (File file : fileList) {
@@ -264,47 +301,46 @@ public class CommonLoader {
             DamageOverhaul.log(Level.ERROR, e.getMessage());
         }
 
-        /*
-        USED FOR DATAGEN, SHOULD NOT BE ACTIVE IN THE FINAL JAR.
-
-        ArtificeResourcePack dataPack = new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, new Identifier(DamageOverhaul.MOD_ID, "guidebook"), resourcePackBuilder -> {
-            resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/book.json"), new JsonResource(PatchouliJSONGenerator.generateRootBookJson()));
-            resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/entities.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Entities", Items.ZOMBIE_SPAWN_EGG)));
-            resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/tool_damages.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Tool Damages", Items.IRON_SWORD)));
-            resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/armor_resistances.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Armor Resistances", Items.IRON_CHESTPLATE)));
-            resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/enchantment_resistances.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Enchantment Resistances", Items.ENCHANTED_BOOK)));
-            for (EntityType<?> entityType : EntityResistances.values()) {
-                JsonElement entry = PatchouliJSONGenerator.generateEntityEntry(entityType);
-                PatchouliJSONGenerator.addEntityLandingPage(entry, entityType);
-                if (!DefaultEntityResistances.valueOf(Registry.ENTITY_TYPE.getId(entityType).getPath().toUpperCase(Locale.ROOT)).getDamageAssociations().isEmpty()) {
-                    PatchouliJSONGenerator.addEntityResistancePage(entry, entityType);
-                    for (EntityType<?> type : DefaultEntityResistances.valueOf(Registry.ENTITY_TYPE.getId(entityType).getPath().toUpperCase(Locale.ROOT)).getDamageAssociations()) {
-                        PatchouliJSONGenerator.addEntityDamagePage(entry, type);
+        // Used for data generation. Should only be active within a development environment.
+        if (loader.isDevelopmentEnvironment()) {
+            ArtificeResourcePack dataPack = new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, new Identifier(DamageOverhaul.MOD_ID, "guidebook"), resourcePackBuilder -> {
+                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/book.json"), new JsonResource(PatchouliJSONGenerator.generateRootBookJson()));
+                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/entities.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Entities", Items.ZOMBIE_SPAWN_EGG)));
+                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/tool_damages.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Tool Damages", Items.IRON_SWORD)));
+                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/armor_resistances.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Armor Resistances", Items.IRON_CHESTPLATE)));
+                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/enchantment_resistances.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Enchantment Resistances", Items.ENCHANTED_BOOK)));
+                for (EntityType<?> entityType : EntityResistances.values()) {
+                    JsonElement entry = PatchouliJSONGenerator.generateEntityEntry(entityType);
+                    PatchouliJSONGenerator.addEntityLandingPage(entry, entityType);
+                    if (!DefaultEntityResistances.valueOf(Registry.ENTITY_TYPE.getId(entityType).getPath().toUpperCase(Locale.ROOT)).getDamageAssociations().isEmpty()) {
+                        PatchouliJSONGenerator.addEntityResistancePage(entry, entityType);
+                        for (EntityType<?> type : DefaultEntityResistances.valueOf(Registry.ENTITY_TYPE.getId(entityType).getPath().toUpperCase(Locale.ROOT)).getDamageAssociations()) {
+                            PatchouliJSONGenerator.addEntityDamagePage(entry, type);
+                        }
+                    } else {
+                        PatchouliJSONGenerator.addEntityResistancePage(entry, entityType);
                     }
-                }
-                else {
-                    PatchouliJSONGenerator.addEntityResistancePage(entry, entityType);
-                }
-                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/entities/"+Registry.ENTITY_TYPE.getId(entityType).getPath()+".json"), new JsonResource(entry));
+                    resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/entities/" + Registry.ENTITY_TYPE.getId(entityType).getPath() + ".json"), new JsonResource(entry));
 
-            }
-            for (Item toolItem : ToolDamages.values()) {
-                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/tool_damages/"+Registry.ITEM.getId(toolItem).getPath()+".json"), new JsonResource(PatchouliJSONGenerator.generateToolEntryJson(toolItem)));
-            }
-            for (Item armorItem : ArmorResistances.values()) {
-                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/armor_resistances/"+Registry.ITEM.getId(armorItem).getPath()+".json"), new JsonResource(PatchouliJSONGenerator.generateArmorEntryJson(armorItem, ((ArmorItem)armorItem).getMaterial())));
-            }
-            for (Enchantment enchantment : EnchantmentResistances.values()) {
-                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/enchantment_resistances/"+Registry.ENCHANTMENT.getId(enchantment).getPath()+".json"), new JsonResource(PatchouliJSONGenerator.generateEnchantmentEntryJson(enchantment)));
-            }
-            try {
-                resourcePackBuilder.dumpResources("./resources", "data");
-            } catch (IOException e) {
-                DamageOverhaul.log(Level.ERROR, e.getMessage());
-            }
-        });
-        Artifice.registerData(new Identifier(DamageOverhaul.MOD_ID, "guidebook"), dataPack);
-        */
+                }
+                for (Item toolItem : ToolDamages.values()) {
+                    resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/tool_damages/" + Registry.ITEM.getId(toolItem).getPath() + ".json"), new JsonResource(PatchouliJSONGenerator.generateToolEntryJson(toolItem)));
+                }
+                for (Item armorItem : ArmorResistances.values()) {
+                    resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/armor_resistances/" + Registry.ITEM.getId(armorItem).getPath() + ".json"), new JsonResource(PatchouliJSONGenerator.generateArmorEntryJson(armorItem, ((ArmorItem) armorItem).getMaterial())));
+                }
+                for (Enchantment enchantment : EnchantmentResistances.values()) {
+                    resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/enchantment_resistances/" + Registry.ENCHANTMENT.getId(enchantment).getPath() + ".json"), new JsonResource(PatchouliJSONGenerator.generateEnchantmentEntryJson(enchantment)));
+                }
+                try {
+                    resourcePackBuilder.dumpResources("./resources", "data");
+                } catch (IOException e) {
+                    DamageOverhaul.log(Level.ERROR, e.getMessage());
+                }
+            });
+            Artifice.registerData(new Identifier(DamageOverhaul.MOD_ID, "guidebook"), dataPack);
+        }
+
         if (loader.isModLoaded("patchouli")) {
             Set<EntityType<?>> entitiesToFilter = new HashSet<>();
             for (EntityType<?> entityType : EntityResistances.values()) {
@@ -329,6 +365,7 @@ public class CommonLoader {
             for (Enchantment enchantment : EnchantmentResistances.values()) {
                 PatchouliAPI.get().setConfigFlag(new Identifier(DamageOverhaul.MOD_ID, Registry.ENCHANTMENT.getId(enchantment).getPath()).toString(), true);
             }
+            Registry.register(Registry.ITEM, new Identifier(DamageOverhaul.MOD_ID, "guidebook"), DamageOverhaul.GUIDEBOOK_ITEM);
         }
     }
 

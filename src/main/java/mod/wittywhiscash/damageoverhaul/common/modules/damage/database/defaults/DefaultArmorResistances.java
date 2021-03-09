@@ -1,8 +1,8 @@
-package mod.wittywhiscash.damageoverhaul.common.database.defaults;
+package mod.wittywhiscash.damageoverhaul.common.modules.damage.database.defaults;
 
 import mod.wittywhiscash.damageoverhaul.api.DamageType;
-import mod.wittywhiscash.damageoverhaul.common.damage.DamageAttribute;
-import mod.wittywhiscash.damageoverhaul.common.database.DamageTypes;
+import mod.wittywhiscash.damageoverhaul.common.modules.damage.util.DamageAttribute;
+import mod.wittywhiscash.damageoverhaul.common.modules.damage.database.DamageTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 
@@ -205,8 +205,8 @@ public enum DefaultArmorResistances {
         put(DamageTypes.valueOf(DamageType.WITHER), new DamageAttribute(1.0F));
     }}),
     /*
-        #And then there's the turtle helmet. It's basically iron, with a bit
-        #better fire protection.
+        # And then there's the turtle helmet. It's basically iron, with a bit
+        # better fire protection.
         -Csillagvihar
     */
     TURTLE_HELMET(Items.TURTLE_HELMET, new LinkedHashMap<DamageType, DamageAttribute>(){{
