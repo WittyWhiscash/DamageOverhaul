@@ -68,7 +68,7 @@ public abstract class LivingEntityMixin extends Entity {
                 Time to do some additional logic, as most likely this is a damage source that is invoked during
                 an entity, such as a mob or an arrow, dealing damage to another entity.
             */
-            if (Objects.nonNull(source.getAttacker())) {
+            if (Objects.nonNull(source.getAttacker()) && (DamageOverhaul.ATTRIBUTE_DATABASE.getEntityDamageDatabase().contains(source.getAttacker().getType()) && DamageOverhaul.ATTRIBUTE_DATABASE.getEntityResistanceDatabase().contains(this.getType()))) {
                 if (Objects.nonNull(source.getSource()) && source.getSource().equals(source.getAttacker())) {
                      /*
                         Source has an attacker and a source, and they are both the same. This is very likely
