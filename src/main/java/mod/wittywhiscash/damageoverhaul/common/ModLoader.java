@@ -302,44 +302,45 @@ public class ModLoader {
         }
 
         // Used for data generation. Should only be active within a development environment.
-        if (loader.isDevelopmentEnvironment()) {
-            ArtificeResourcePack dataPack = new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, new Identifier(DamageOverhaul.MOD_ID, "guidebook"), resourcePackBuilder -> {
-                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/book.json"), new JsonResource(PatchouliJSONGenerator.generateRootBookJson()));
-                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/entities.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Entities", Items.ZOMBIE_SPAWN_EGG)));
-                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/tool_damages.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Tool Damages", Items.IRON_SWORD)));
-                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/armor_resistances.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Armor Resistances", Items.IRON_CHESTPLATE)));
-                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/enchantment_resistances.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Enchantment Resistances", Items.ENCHANTED_BOOK)));
-                for (EntityType<?> entityType : EntityResistances.values()) {
-                    JsonElement entry = PatchouliJSONGenerator.generateEntityEntry(entityType);
-                    PatchouliJSONGenerator.addEntityLandingPage(entry, entityType);
-                    if (!DefaultEntityResistances.valueOf(Registry.ENTITY_TYPE.getId(entityType).getPath().toUpperCase(Locale.ROOT)).getDamageAssociations().isEmpty()) {
-                        PatchouliJSONGenerator.addEntityResistancePage(entry, entityType);
-                        for (EntityType<?> type : DefaultEntityResistances.valueOf(Registry.ENTITY_TYPE.getId(entityType).getPath().toUpperCase(Locale.ROOT)).getDamageAssociations()) {
-                            PatchouliJSONGenerator.addEntityDamagePage(entry, type);
-                        }
-                    } else {
-                        PatchouliJSONGenerator.addEntityResistancePage(entry, entityType);
+        // TODO: Figure out a better method for ensuring this does not run without a development environment
+        /*
+        ArtificeResourcePack dataPack = new ArtificeResourcePackImpl(ResourceType.SERVER_DATA, new Identifier(DamageOverhaul.MOD_ID, "guidebook"), resourcePackBuilder -> {
+            resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/book.json"), new JsonResource(PatchouliJSONGenerator.generateRootBookJson()));
+            resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/entities.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Entities", Items.ZOMBIE_SPAWN_EGG)));
+            resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/tool_damages.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Tool Damages", Items.IRON_SWORD)));
+            resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/armor_resistances.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Armor Resistances", Items.IRON_CHESTPLATE)));
+            resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/categories/enchantment_resistances.json"), new JsonResource(PatchouliJSONGenerator.generateCategory("Enchantment Resistances", Items.ENCHANTED_BOOK)));
+            for (EntityType<?> entityType : EntityResistances.values()) {
+                JsonElement entry = PatchouliJSONGenerator.generateEntityEntry(entityType);
+                PatchouliJSONGenerator.addEntityLandingPage(entry, entityType);
+                if (!DefaultEntityResistances.valueOf(Registry.ENTITY_TYPE.getId(entityType).getPath().toUpperCase(Locale.ROOT)).getDamageAssociations().isEmpty()) {
+                    PatchouliJSONGenerator.addEntityResistancePage(entry, entityType);
+                    for (EntityType<?> type : DefaultEntityResistances.valueOf(Registry.ENTITY_TYPE.getId(entityType).getPath().toUpperCase(Locale.ROOT)).getDamageAssociations()) {
+                        PatchouliJSONGenerator.addEntityDamagePage(entry, type);
                     }
-                    resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/entities/" + Registry.ENTITY_TYPE.getId(entityType).getPath() + ".json"), new JsonResource(entry));
+                } else {
+                    PatchouliJSONGenerator.addEntityResistancePage(entry, entityType);
+                }
+                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/entities/" + Registry.ENTITY_TYPE.getId(entityType).getPath() + ".json"), new JsonResource(entry));
 
-                }
-                for (Item toolItem : ToolDamages.values()) {
-                    resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/tool_damages/" + Registry.ITEM.getId(toolItem).getPath() + ".json"), new JsonResource(PatchouliJSONGenerator.generateToolEntryJson(toolItem)));
-                }
-                for (Item armorItem : ArmorResistances.values()) {
-                    resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/armor_resistances/" + Registry.ITEM.getId(armorItem).getPath() + ".json"), new JsonResource(PatchouliJSONGenerator.generateArmorEntryJson(armorItem, ((ArmorItem) armorItem).getMaterial())));
-                }
-                for (Enchantment enchantment : EnchantmentResistances.values()) {
-                    resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/enchantment_resistances/" + Registry.ENCHANTMENT.getId(enchantment).getPath() + ".json"), new JsonResource(PatchouliJSONGenerator.generateEnchantmentEntryJson(enchantment)));
-                }
-                try {
-                    resourcePackBuilder.dumpResources("./resources", "data");
-                } catch (IOException e) {
-                    DamageOverhaul.log(Level.ERROR, e.getMessage());
-                }
-            });
-            Artifice.registerData(new Identifier(DamageOverhaul.MOD_ID, "guidebook"), dataPack);
-        }
+            }
+            for (Item toolItem : ToolDamages.values()) {
+                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/tool_damages/" + Registry.ITEM.getId(toolItem).getPath() + ".json"), new JsonResource(PatchouliJSONGenerator.generateToolEntryJson(toolItem)));
+            }
+            for (Item armorItem : ArmorResistances.values()) {
+                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/armor_resistances/" + Registry.ITEM.getId(armorItem).getPath() + ".json"), new JsonResource(PatchouliJSONGenerator.generateArmorEntryJson(armorItem, ((ArmorItem) armorItem).getMaterial())));
+            }
+            for (Enchantment enchantment : EnchantmentResistances.values()) {
+                resourcePackBuilder.add(new Identifier(DamageOverhaul.MOD_ID, "patchouli_books/guidebook/en_us/entries/enchantment_resistances/" + Registry.ENCHANTMENT.getId(enchantment).getPath() + ".json"), new JsonResource(PatchouliJSONGenerator.generateEnchantmentEntryJson(enchantment)));
+            }
+            try {
+                resourcePackBuilder.dumpResources("./resources", "data");
+            } catch (IOException e) {
+                DamageOverhaul.log(Level.ERROR, e.getMessage());
+            }
+        });
+        Artifice.registerData(new Identifier(DamageOverhaul.MOD_ID, "guidebook"), dataPack);
+        */
 
         if (loader.isModLoaded("patchouli")) {
             Set<EntityType<?>> entitiesToFilter = new HashSet<>();
