@@ -42,7 +42,7 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin {
     @Redirect(method = "applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;applyEnchantmentsToDamage(Lnet/minecraft/entity/damage/DamageSource;F)F"))
     private float performArmorAndEnchantmentCalc(PlayerEntity entity, DamageSource source, float amount) {
         DamageOverhaul.debugLog(Level.INFO, DamageOverhaul.CONFIG.DEBUG.getDamageDebug(), String.format("Original amount: %f", amount));
-        if (DamageOverhaul.ATTRIBUTE_DATABASE.getDamageSourceDatabase().contains(source)) {
+        if (DamageOverhaul.ATTRIBUTE_DATABASE.getDamageSourceDatabase().contains(source) && DamageOverhaul.ATTRIBUTE_DATABASE.getEntityResistanceDatabase().contains(this.getType())) {
             /*
                 Source has neither a source, nor an attacker, and is in our database. This is invoked for environmental damage types,
                 like falling, lava, and drowning. Perform logic for the damage source as defined in the database.
